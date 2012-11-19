@@ -1,0 +1,50 @@
+<h1>Show Action Type</h1>
+
+<hr />
+
+<table>
+<tr>
+  <td align="right">Desc:</td>
+  <td><%=h @type.descrp %></td>
+</tr>
+
+<tr>
+  <td align="right">Notes:</td>
+  <td><%=h @type.notes %></td>
+</tr>
+
+<tr>
+  <td>Rules:</td>
+  <td align="right"><%= link_to 'Manage Rules', rules_path %></td>
+</tr>
+
+<tr>
+  <td colspan="2">
+    <table>
+
+  <% Rule.find_all_by_type_id(@type.id).each do |a| %>
+        <tr>
+          <td><%= link_to Event.find(a.event_id).event, a %></td>
+          <td><%= a.rmdroffset.to_s + " months from " %>
+          <%= case a.refdttype_id
+            when 1 then "action mailing date."
+            when 2 then "case filing date."
+            else "case priority date."
+            end %>
+          </td>
+        </tr>
+  <% end %>
+
+    </table>
+  </td>
+</tr>
+
+</table>
+
+<hr />
+
+<p align="center">
+<%= link_to 'Edit this action type', edit_type_path(@type) %> ::
+<%= link_to 'Delete this action type', @type, :confirm => 'Are you sure?', :method => :delete %> ::
+<%= link_to 'See all action types', types_path %>
+</p>

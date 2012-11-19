@@ -1,0 +1,26 @@
+<h1>Inventorships</h1>
+
+<table>
+  <tr>
+  <th>Docket</th><th>Title</th><th>Inventor Name</th>
+    
+  </tr>
+
+  <% @inventorships.each do |inventorship| %>
+  <tr>
+    <td><%= link_to Patentcase.find(inventorship.patentcase_id ).attorneydocket, Patentcase.find(inventorship.patentcase_id ) %></td>
+
+    <td><%=h Patentcase.find(inventorship.patentcase_id ).title %></td>&nbsp;
+    <%u = Inventor.find(inventorship.inventor_id)%>
+    <td><%= link_to u.first, u%></td>
+<td><%=h Inventor.find(inventorship.inventor_id ).middle %></td>&nbsp;
+<td><%=h Inventor.find(inventorship.inventor_id ).last %></td>
+    
+    <td><%= link_to 'Show', inventorship %></td>
+    <td><%= link_to 'Edit', edit_inventorship_path(inventorship) %></td>
+    <td><%= link_to 'Destroy', inventorship, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

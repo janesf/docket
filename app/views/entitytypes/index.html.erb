@@ -1,0 +1,20 @@
+<h1>Listing entitytypes</h1>
+
+<table>
+  <tr>
+    <th>Descrp</th>
+  </tr>
+
+<% @entitytypes.each do |entitytype| %>
+  <tr>
+    <td><%=h entitytype.descrp %></td>
+    <td><%= link_to 'Show', entitytype %></td>
+    <td><%= link_to 'Edit', edit_entitytype_path(entitytype) %></td>
+    <td><%= link_to 'Destroy', entitytype, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New entitytype', new_entitytype_path %>

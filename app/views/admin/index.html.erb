@@ -1,0 +1,12 @@
+<h1>Admin#index</h1>
+<h1>Welcome</h1>
+It's <%= Time.now %><br>
+Session User: <%=current_user.name%>, ID: <%=current_user.id%><br>
+
+
+<%@total_cases = Patentcase.find_by_sql ["select count(p.id) from patentcases p, usercases u where p.id = u.patentcase_id and user_id =(?)", (session[:user_id]) ]%>
+      <%@total_cases = Patentcase.find_by_sql ["select count(p.id) from patentcases p, usercases u where p.id = u.patentcase_id and user_id =(?)", (session[:user_id]) ]%>
+      <%@total_cases = Patentcase.find_by_sql(["select count(p.id) from patentcases p where p.id in (select patentcase_id from  usercases u where user_id =?)", session[:user_id]])%>
+
+We have <%=link_to pluralize(@total_cases, "Patentcase" ), patentcases_path %>.
+

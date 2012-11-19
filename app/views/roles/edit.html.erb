@@ -1,0 +1,18 @@
+<h1>Editing Role</h1>
+
+<%= form_for(@role) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+
+   <fieldset>
+      <legend>Enter Role Details</legend>
+      <div><%= f.label :description %>: <%= f.text_field :description %></div>
+      <div><%= f.label :data_read %>: <%= f.check_box :data_read %></div>
+      <div><%= f.label :data_write %>: <%= f.check_box :data_write %></div>
+      <div><%= f.label :system_readwrite %>: <%= f.check_box :system_readwrite %></div>
+      <div><%= f.submit 'Save' %></div>
+   </fieldset>
+<% end %>
+
+<%= link_to 'Show', @role %> ::
+<%= link_to 'List All', roles_path %>

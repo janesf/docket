@@ -1,0 +1,69 @@
+<h1>Edit Reminder</h1>
+
+<fieldset>
+<legend>
+   <% if @reminder.aaction_id.nil? then %>
+      Reminder
+   <% else %>
+      <% this_action = @reminder.aaction %>
+      <% action_description = this_action.type.descrp  %>
+      <% attorney_docket = this_action.patentcase.attorneydocket %>
+      Reminder for <%= link_to "#{action_description} (#{attorney_docket})", this_action %>
+   <% end %>
+</legend>
+
+<%= form_for(@reminder) do |f| %>
+   <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+   
+   <div>
+      <%= f.label :due_date %>:
+      <%= f.date_select "reminder[due_date]", @reminder.due_date %>
+   </div>
+   <div>
+      <%= f.label :patentcase_id %>:
+      <% if @reminder.aaction_id.nil? then %>
+         <%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
+      <% else %>
+         <%= h attorney_docket %>
+      <% end %>
+   </div>
+   <div>
+      <%= f.label :note %>:
+      <%= f.text_area :note %>
+   </div>
+   <div>
+      <%= f.label :completed %>:
+      <%= f.check_box :completed %>
+   </div>
+   <div>
+      <%= f.label :date_completed %>:
+      <%= f.date_select "reminder[date_completed]", @reminder.date_completed %>
+   </div>
+   <div>
+      <%= f.label :completing_action %>:
+      <%= f.collection_select( :completing_action, Aaction.find_all_by_patentcase_id(:case_id), :id, :title, {:prompt => true}) %>
+   </div>
+   <div>
+   <div>
+      <%= f.label :dismissed %>:
+      <%= f.check_box :dismissed %>
+   </div>
+   <div>
+      <%= f.label :date_dismissed %>:
+      <%= f.date_select "reminder[date_dismissed]", @reminder.date_dismissed %>
+   </div>
+   <div>
+      <%= f.label :dismissed_by %>:
+      <%= f.collection_select( :dismissed_by, User.find(:all), :id, :name, {:prompt => true}) %>
+   </div>
+   <div>
+      <%= f.submit 'Update' %>
+   </div>
+<% end %>
+</fieldset>
+
+<%= link_to 'View this reminder', @reminder %>  ::
+<%= link_to 'Delete this reminder', @reminder, :confirm => 'Are you sure?', :method => :delete %>  ::
+<%= link_to 'List reminders', reminders_path %>

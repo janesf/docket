@@ -1,0 +1,42 @@
+<h1>View Action</h1>
+<p> 
+<b><%= link_to @aaction.patentcase.attorneydocket, @aaction.patentcase %></b>
+  <br />
+<%= link_to @aaction.type.descrp, @aaction.type %><br />
+ <b>Dated:
+  <%=h @aaction.dtmailing %></b><br />
+<% unless @aaction.notes.empty? then %>
+  <b>Notes:</b>
+  <%=h @aaction.notes %>
+<% end %>
+</p>
+<table>
+  <tr><th align="center" colspan="5">
+    Applicable reminders:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= link_to 'Manage Rules', rules_path %>
+  </th></tr>
+  <tr>
+      <th>Due</th>
+      <th>Notes</th>
+      <th>&nbsp;</th>
+  </tr>
+  <% @aaction.reminders.each do |reminder| %>
+      <% unless reminder.completed? or reminder.dismissed? then %>
+         <tr>
+            <td>
+               <%= h reminder.due_date %>
+            </td>
+            <td>
+               <%= h reminder.note %>
+            </td>
+            <td><%= link_to 'View', reminder %></td>
+         </tr>
+      <% end %>
+  <% end %>
+</table>  <!-- end of sub-sub-table for reminders of this action and this rule -->
+
+  
+<hr />  
+<%= link_to 'Edit this action', edit_aaction_path(@aaction) %> ::
+<%= link_to 'Destroy this action', @aaction, :confirm => 'Are you sure?', :method => :delete %> ::
+<%= link_to 'List actions', aactions_path %> ::
+<%= link_to 'Back', :back %>

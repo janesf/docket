@@ -1,0 +1,49 @@
+<h1>Edit Action</h1>
+
+<%= form_for(@aaction) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+  <table>
+    <tr>
+      <td align="right">
+        <%= f.label :patentcase_id %>
+      </td>
+      <td>
+        <%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">
+        <%= f.label :type_id %>
+      </td>
+      <td>
+        <%= f.collection_select(:type_id, Type.find(:all), :id,:descrp, {:prompt => true}) %>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">
+        <%= f.label :dtmailing %>
+      </td>
+      <td>
+        <%= f.date_select :dtmailing, :start_year => 1999, :end_year => Time.now.year, :default => Date.today %>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">
+        <%= f.label :notes %>
+      </td>
+      <td>
+        <%= f.text_area :notes %>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="2">
+        <%= f.submit 'Update' %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<%= link_to 'Show', @aaction %> ::
+<%= link_to 'Show All Actions', aactions_path %>

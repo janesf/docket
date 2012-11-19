@@ -1,0 +1,62 @@
+<h1>Patent Cases</h1>
+
+<table border="1">
+  <tr>
+    <th>Attorney Docket</th>
+    <th>Title &amp; Inventors</th>
+    <th>Application &amp; Patent Numbers</th>
+    <th>Last Action</th>
+    <th>Next Action</th>
+    <th><%= link_to( image_tag('add.png', :border => 0, :alt => 'New Patent Case'), :controller => "patentcases", :action => "new") %></th>
+  </tr>
+
+<% @patentcases.each do |patentcase| %>
+  <tr>
+
+    <!-- Attorney Docket -->
+    <td><%= link_to patentcase.attorneydocket, patentcase %></td>
+
+    <!-- Title & Inventors -->
+    <td><%=h patentcase.title %>
+    <br/>by: 
+       <% Inventorship.find_all_by_patentcase_id(patentcase.id).each do |b| %>
+          <% Inventor.find_all_by_id(b.inventor_id).each do |a| %>
+              <%= link_to a.first+" "+a.middle+" "+a.last, Inventor.find(a.id) %>, 
+          <% end %>
+       <% end %>
+    </td>
+
+    <!-- Application/Patent Numbers -->
+    <td>
+	<%=h Countrycode.find(patentcase.jurisdiction).ccode %>&nbsp;<%=h patentcase.applicationnumber %> (<%=h patentcase.filingdate %>)
+        <% if patentcase.patentnumber != '' %>
+	  <br /><%=h Countrycode.find(patentcase.jurisdiction).ccode %>&nbsp;<%=h patentcase.patentnumber %> (<%=h patentcase.issuedate %>)
+	<% end %>
+	<br /><em>Priority:</em>
+	<% Priority.find_all_by_child_id(patentcase.id).each do |c| %>
+	    <% if c.priority %>
+	       <% Patentcase.find_all_by_id(c.parent_id).each do |a| %>
+                  <br />
+		  <%= link_to Countrycode.find(a.jurisdiction).ccode+'&nbsp;'+a.applicationnumber, Patentcase.find(a.id) %>
+		      (<%= h a.filingdate %>)
+               <% end %>
+	    <% end  %>
+	<% end %>
+    </td>
+
+    <!-- Last Action -->
+    <td><em>not implemented yet.</em></td>
+
+    <!-- Next Action -->
+    <td><em>not implemented yet.</em></td>
+
+    <!-- Links -->
+    <td>
+	<%= link_to( image_tag('idea.png', :border => 0, :alt => 'Show'), patentcase) %>
+	<%= link_to( image_tag('edit.png', :border => 0, :alt => 'Edit'), edit_patentcase_path(patentcase) ) %>
+	<%= link_to( image_tag('editdelete.png', :border => 0, :alt => 'Delete'), patentcase, :confirm => 'Are you sure?', :method => :delete ) %>
+    </td>
+    
+  </tr>
+<% end %>
+</table>

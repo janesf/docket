@@ -1,0 +1,72 @@
+<h1>Patent Cases</h1> 
+<%= link_to( 'Create New Patent Case', :controller => "patentcases", :action => "new") %>
+<table border="1">
+   <tr class="tr1">
+      <th>Attorney Docket</th>
+      <th>Title &amp; Inventors</th>
+      <th>Application &amp; Patent Numbers</th>
+      <th>Last Action</th>
+      <th>Next Action</th>
+   </tr>
+
+<% @patentcases.each do |patentcase| %>
+   <tr class="<%= cycle('tr0', 'tr1') %>">
+   
+      <!-- Attorney Docket -->
+      <td><%= link_to patentcase.attorneydocket, patentcase %></td>
+   
+      <!-- Title & Inventors -->
+      <td><%= h patentcase.title %>
+      <br/>by: 
+         <% patentcase.inventors.each do |a| %>
+            <%= link_to a.first+" "+a.middle+" "+a.last, Inventor.find(a.id) %>, 
+         <% end %>
+      </td>
+   
+      <!-- Application/Patent Numbers -->
+      <td>
+         <%= h Countrycode.find(patentcase.jurisdiction).ccode %>&nbsp;<%= h patentcase.applicationnumber %> (<%= h patentcase.filingdate %>)
+         <% unless patentcase.patentnumber.nil? then %>
+            <br /><%= h Countrycode.find(patentcase.jurisdiction).ccode %>&nbsp;<%= h patentcase.patentnumber %> (<%= h patentcase.issuedate %>)
+         <% end %>
+         <br /><em>Priority:</em>
+         <% Priority.find_all_by_child_id(patentcase.id).each do |c| %>
+               <% if c.priority %>
+                  <% Patentcase.find_all_by_id(c.parent_id).each do |a| %>
+                     <br />
+                     <%= link_to Countrycode.find(a.jurisdiction).ccode+'&nbsp;'+a.applicationnumber, Patentcase.find(a.id) %>
+                        (<%= h a.filingdate %>)
+                  <% end %>
+               <% end  %>
+         <% end %>
+      </td>
+   
+      <!-- Last Action -->
+      <td><em>
+         <% if patentcase.most_recent_aaction.nil? then %>
+            None.
+         <% else %>
+            <%= link_to patentcase.most_recent_aaction.type.descrp, patentcase.most_recent_aaction %>
+            ( <%= h patentcase.most_recent_aaction.dtmailing %> ): 
+            <%= h patentcase.most_recent_aaction.notes %>.
+         <% end %>
+      </em></td>
+   
+      <!-- Next Action -->
+      <td><em>
+         <% if patentcase.most_recent_aaction.nil? or patentcase.most_recent_aaction.reminders.nil? then %>
+            None.
+         <% else %>
+            <% patentcase.most_recent_aaction.reminders.each do |reminder| %>
+               <%= h reminder.note %> (<%= h reminder.due_date %>).&nbsp;
+            <% end %>
+         <% end %>
+      </em></td>
+      
+   </tr>
+<% end %>
+</table>
+
+<hr/>
+<%= link_to( 'Create New Patent Case', :controller => "patentcases", :action => "new") %> ::
+<%= link_to( 'Back', :back ) %>

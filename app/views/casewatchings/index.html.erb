@@ -1,0 +1,22 @@
+<h1>Listing casewatchings</h1>
+
+<table>
+  <tr>
+    <th>Watcher</th>
+    <th>Watchee</th>
+  </tr>
+
+<% @casewatchings.each do |casewatching| %>
+  <tr>
+    <td><%=h casewatching.watcher_id %></td>
+    <td><%=h casewatching.watchee_id %></td>
+    <td><%= link_to 'Show', casewatching %></td>
+    <td><%= link_to 'Edit', edit_casewatching_path(casewatching) %></td>
+    <td><%= link_to 'Destroy', casewatching, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New casewatching', new_casewatching_path %>

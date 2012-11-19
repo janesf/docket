@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Patent Cases: List</title>
+  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'iveylaw.org' %>
+</head>
+<body>
+
+<div id="container">
+<div id="pageHeader">IveyLaw Patent Case Management</div>
+<div id="titleBar">
+Patent Cases
+</div>
+
+<div id="sideBar">
+<h1>Attorney Docket Management</h1>
+<ul>
+<li><%= link_to "Entities", entities_path %></li>
+<li><%= link_to "Patent Cases", patentcases_path %></li>
+<li><%= link_to "Inventors", inventors_path %></li>
+<li><%= link_to "Inventorships", inventorships_path %></li>
+<li><%= link_to "Action Types", types_path %></li>
+<li><%= link_to "Actions", aactions_path %></li>
+<li><%= link_to "Rules", rules_path %></li>
+</ul>
+</div> <!-- id="sideBar" -->
+
+<div id="contentBox">
+<h1>Patent Cases</h1>
+
+<table>
+  <tr>
+    <th><%= link_to( image_tag('add.png', :size => "22x22"), :controller => "patentcases", :action => "new") %></th>
+    <th>Attorney Docket</th>
+    <th>Title</th>
+    <th>Inventors</th>
+    <th>Application/Patent Numbers</th>
+    <th>Last Action</th>
+    <th>Next Action</th>
+  </tr>
+
+<% @patentcases.each do |patentcase| %>
+  <tr>
+
+    <td>
+	<%= link_to image_tag('idea.png', :size => "22x22"), new_patentcase_path %>
+	<%= link_to( image_tag('edit.png', :size => "22x22"), edit_patentcase_path(patentcase) ) %>
+	<%= link_to( image_tag('editdelete.png', :size => "22x22"), patentcase, :confirm => 'Are you sure?', :method => :delete ) %>
+    </td>
+    
+    <td><%= link_to patentcase.attorneydocket, patentcase %></td>
+
+    <td><%=h patentcase.title %></td>
+    <td>
+<% Inventorship.find_all_by_patentcase_id(patentcase.id).each do |b| %>
+      <% Inventor.find_all_by_id(b.inventor_id).each do |a| %>
+              <%= link_to a.first+" "+a.middle+" "+a.last, Inventor.find(a.id) %>, 
+       <% end %>
+<% end %>
+    </td>
+
+    <td>
+	<%=h patentcase.jurisdiction %>&nbsp;<%=h patentcase.applicationnumber %> (<%=h patentcase.filingdate %>)
+	<br /><%=h patentcase.jurisdiction %>&nbsp;<%=h patentcase.patentnumber %> (<%=h patentcase.issuedate %>)
+	<br />
+	<% Priority.find_all_by_child_id(patentcase.id).each do |c| 
+	    if c.priority %>
+          <em>Priority:</em>
+	       <%Patentcase.find_all_by_id(c.parent_id).each do |a| %>
+                  <br />
+		  <%= link_to a.jurisdiction+'&nbsp;'+a.applicationnumber, Patentcase.find(a.id)%>
+		      (<%=h a.filingdate %>)
+           <% end 
+	    end 
+	 end %>
+   
+    </td>
+  </tr>
+<% end %>
+</table>
+
+</div> <!-- id="contentBox" -->
+</div> <!-- id="container" -->
+
+</body>
+</html>

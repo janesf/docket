@@ -1,0 +1,19 @@
+<h1>New Entity-User Association</h1>
+
+<%= form_for(@entities_user) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+<fieldset>
+<legend>Enter Entity-User Association Details</legend>
+<div><%= f.label :entity_id %>: 
+    <%= f.collection_select(:entity_id, Entity.find(:all), :id, :name, {:prompt => true}) %></div>
+<div><%= f.label :user_id %>: 
+    <%= f.collection_select(:user_id, User.find(:all), :id, :name, {:prompt => true}) %></div>
+<div><%= f.submit 'Create' %></div>
+</fieldset>
+<% end %>
+
+<%= link_to 'Entity-User Associations', { :controller => "entities_users", :action => "index" } %> ::
+<%= link_to 'Back', :back %>

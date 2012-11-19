@@ -1,0 +1,33 @@
+<h1>Event</h1>
+
+<hr />
+
+<table>
+  <tr>
+    <td align="right">
+      Event:
+    </td>
+    <td>
+      <%=h @event.event %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Notes:
+    </td>
+    <td>
+      <%=h @event.notes %>
+    </td>
+  </tr>
+</table>
+
+<hr />
+
+
+<p align="center">
+<%= link_to 'Edit', edit_event_path(@event) %> ::
+<%= link_to 'List of All Events', events_path %> ::
+<%= link_to 'Actions', aactions_path %> ::
+<%= link_to 'Rules', rules_path %> ::
+<%= link_to 'Patent cases', patentcases_path %>
+</p>

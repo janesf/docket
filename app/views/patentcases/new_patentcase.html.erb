@@ -1,0 +1,74 @@
+<%= stylesheet_link_tag "docket2", :media => "all", :all => "true" %>
+
+<div id="container">
+<div id="pageHeader"></div>
+<div id="titleBar">
+New Patent Case
+</div>
+
+<div id="sideBar">
+<h1>Attorney Docket Management</h1>
+<ul>
+<li><%= link_to "Entities", entities_path %></li>
+<li><%= link_to "Patent Cases", patentcases_path %></li>
+<li><%= link_to "Inventors", inventors_path %></li>
+<li><%= link_to "Inventorships", inventorships_path %></li>
+<li><%= link_to "Action Types", types_path %></li>
+<li><%= link_to "Actions", actions_path %></li>
+<li><%= link_to "Rules", rules_path %></li>
+</ul>
+</div>
+
+<div id="contentBox">
+<h1>New Patent Case</h1>
+
+<%= form_for(@patentcase) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <table border="0">
+  <tr><td align="right"><%= f.label :attorneydocket %></td>
+    <td><%= f.text_field :attorneydocket %></td></tr>
+  <tr><td align="right"><%= f.label :jurisdiction %></td>
+    <td><%= f.text_field :jurisdiction %></td></tr>
+  <tr><td align="right"><%= f.label :patentnumber %></td>
+    <td><%= f.text_field :patentnumber %></td></tr>
+  <tr><td align="right"><%= f.label :issuedate %></td>
+    <td><%= f.date_select :issuedate %></td></tr>
+  <tr><td align="right"><%= f.label :applicationnumber %></td>
+    <td><%= f.text_field :applicationnumber %></td></tr>
+  <tr><td align="right"><%= f.label :title %></td>
+    <td><%= f.text_field :title %></td></tr>
+   <tr><td align="right"><%= f.label :filingdate %></td>
+    <td><%= f.date_select :filingdate %></td></tr>
+  <tr><td align="right"><%= f.label :Entity %></td>
+    <td><%= f.collection_select(:entity_id, Entity.find(:all), :id, :name, {:prompt => true}) %></td></tr>
+
+  <tr><td align="right"><%= f.label :responsible %></td>
+    <%= f.text_field :responsible %></td></tr>
+  <tr><td align="right"><%= f.label :reqnonpublish %></td>
+    <td><%= f.check_box :reqnonpublish %></td></tr>
+  <tr><td align="right"><%= f.label :rescindnonpub %></td>
+    <td><%= f.date_select :rescindnonpub %></td></tr>
+   <tr><td align="right"><%= f.label :published %></td>
+    <td><%= f.check_box :published %></td></tr>
+  <tr><td align="right"><%= f.label :publication_no %></td>
+    <td><%= f.text_field :publication_no %></td></tr>
+  <tr><td align="right"><%= f.label :techcenter %></td>
+    <td><%= f.text_field :techcenter %></td></tr>
+  <tr><td align="right"><%= f.label :examiner %></td>
+    <td><%= f.text_field :examiner %></td></tr>
+  <tr><td align="right"><%= f.label :conf_no %></td>
+    <td><%= f.text_field :conf_no %></td></tr>
+  <tr><td align="right"><%= f.label :smallentity %></td>
+    <td><%= f.check_box :smallentity %></td></tr>
+  <tr><td align="right"><%= f.label :forfilinglicense %></td>
+    <td><%= f.date_select :forfilinglicense %></td></tr>
+
+  <tr><td align="center" colspan="2"><%= f.submit 'Create' %></td></tr>
+  </table>
+<% end %>
+
+<%= link_to 'Back to All Cases', patentcases_path %>
+</div>

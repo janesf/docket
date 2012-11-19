@@ -1,0 +1,42 @@
+<h1>Inventors</h1>
+<table border="1">
+
+  <tr class="tr1">
+    <th>Name/Entity</th>
+    <th>Mailing Address</th>
+    <th>Citizenship Residence</th>
+    <th>Contact</th>
+  </tr>
+
+<% @inventors.each do |inventor| %>
+  <tr style="<%= cycle('tr0', 'tr1') %>">
+    <td>
+      <%= link_to inventor.prefix+' '+inventor.first+' '+inventor.middle+' '+inventor.last+' '+inventor.suffix, inventor %><br />
+      <%= link_to Entity.find(inventor.entity_id).name , inventor.entity %>    
+    </td>
+    <td>
+      <%=h inventor.mastreet1 %><br />
+      <% if inventor.mastreet2 != nil and inventor.mastreet2 != '' %>
+        <%=h inventor.mastreet2 %><br />
+      <% end %>
+      <%=h inventor.macity %>,
+      <%=h inventor.mastate %>
+      <%=h inventor.mapostalcode %><br />
+      <%=h inventor.macountry %>
+    </td>
+    <td>
+      <%=h inventor.citizenship %> citizen.<br />
+      Resident of <%=h inventor.resstate %>, 
+      <%=h inventor.rescountry %>.
+    </td>
+    <td>
+      e: <%=h inventor.email %><br />
+      p: <%=h inventor.phone1 %><br />
+      p: <%=h inventor.phone2 %><br />
+      p: <%=h inventor.phone3 %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'New inventor', new_inventor_path %>

@@ -1,0 +1,22 @@
+<h1>Editing usercase</h1>
+
+<%= form_for(@usercase) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.collection_select(:user_id, User.all, :id, :name) %>
+  </p>
+  <p>
+    <%= f.label :patentcase_id %><br />
+    <%= f.collection_select(:patentcase_id, Patentcase.all, :id, :attorneydocket) %>
+   </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @usercase %> |
+<%= link_to 'Back', usercases_path %>

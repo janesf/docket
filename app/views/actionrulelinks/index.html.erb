@@ -1,0 +1,29 @@
+<h1>Listing actionrulelinks</h1>
+
+<table>
+  <tr>
+    <th>Rule</th>
+    <th>Action</th>
+  </tr>
+
+<% @actionrulelinks.each do |actionrulelink| %>
+  <tr>
+    
+    <%a = Rule.find(actionrulelink.rule_id)%>
+    <td><%=h Rule.find(actionrulelink.rule_id).reminder+" " + " "+ a.desc%></td>
+    
+    
+    <%b = Type.find(actionrulelink.aaction_id) %>
+    
+    <td><%=h b.descrp%></td>
+    
+    <td><%= link_to 'Show', actionrulelink %></td>
+    <td><%= link_to 'Edit', edit_actionrulelink_path(actionrulelink) %></td>
+    <td><%= link_to 'Destroy', actionrulelink, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New actionrulelink', new_actionrulelink_path %>

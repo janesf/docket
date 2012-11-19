@@ -1,0 +1,26 @@
+<h1>New user_reminder</h1>
+
+<%= form_for(@user_reminder) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.collection_select(:user_id, User.find(:all), :id,:name, {:prompt => true}) %>
+    
+  </p>
+  <p>
+    <%= f.label :reminder_id %><br />
+      <%= f.collection_select(:reminder_id, Reminder.find(:all), :id, :note, {:prompt => true}) %>
+  </p>  
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back to All User Reminders', user_reminders_path %>
+<%= link_to 'User Page', users_path %>
+<%= link_to 'Reminders Page', reminders_path %>
+
+<%= link_to 'User/Reminder Page', user_reminders_path %>

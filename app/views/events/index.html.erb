@@ -1,0 +1,26 @@
+<h1>Events</h1>
+
+<table>
+  <tr>
+    <th>Event</th>
+    <th>Notes</th>
+  </tr>
+
+<% @events.each do |event| %>
+  <tr>
+    <td><%= link_to event.event, edit_event_path(event) %></td>
+    <td><%=h event.notes %></td>
+    <td>
+      <%= link_to 'Show', event %>
+      <%= link_to 'Edit', edit_event_path(event) %>
+      <%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<hr />
+
+<p align="center">
+<%= link_to 'New event', new_event_path %>
+</p>

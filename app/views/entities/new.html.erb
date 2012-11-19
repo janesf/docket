@@ -1,0 +1,84 @@
+<% provide(:title, 'New User') %>
+<h1>New Entity</h1>
+
+<p>Find me in app/views/entities/new.html.erb</p>
+
+    <%= form_for(@entity) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <tr>
+    <td align="right"><%= f.label :entitytype %></td>
+ 
+    <td><%= f.collection_select(:entitytype, Entitytype.find(:all), :id, :descrp, {:prompt => true}) %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :jurisdiction %></td>
+    <td><%= f.text_field :jurisdiction %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :name %></td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :address1 %></td>
+    <td><%= f.text_field :address1 %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :address2 %></td>
+    <td><%= f.text_field :address2 %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :city %></td>
+    <td><%= f.text_field :city %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :state %></td>
+    <td><%= f.text_field :state %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :postalcode %></td>
+    <td><%= f.text_field :postalcode %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :country %></td>
+    <td><%= f.text_field :country %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :mainphone %></td>
+    <td><%= f.text_field :mainphone %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :mainfax %></td>
+    <td><%= f.text_field :mainfax %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :contactname %></td>
+    <td><%= f.text_field :contactname %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :contactphone %></td>
+    <td><%= f.text_field :contactphone %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :contactfax %></td>
+    <td><%= f.text_field :contactfax %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :contactemail %></td>
+    <td><%= f.text_field :contactemail %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :small %></td>
+    <td><%= f.check_box :small %></td>
+  </tr>
+  <tr>
+    <td align="right"><%= f.label :smallchecked %></td>
+    <td><%= f.date_select :smallckd %></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><%= f.submit 'Create' %></td>
+  </tr>
+<% end %>
+
+<%= link_to 'List entities', entities_path %>

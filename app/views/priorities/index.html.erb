@@ -1,0 +1,32 @@
+<h1>Listing priorities</h1>
+
+<table>
+
+<% @priorities.each do |priority| %>
+   <tr>
+
+      <td><%= link_to Patentcase.find(priority.child_id ).attorneydocket, Patentcase.find(priority.child_id ) %></td>
+      <td align="center">
+         <% if priority.watching and priority.priority then %>
+            claims priory of and is watching
+         <% elsif priority.watching then %>
+            is watching
+         <% elsif priority.priority then %>
+            claims priory of
+         <% else %>
+            has no relation to
+         <% end %>
+      </td>
+      <td><%= link_to Patentcase.find(priority.parent_id ).attorneydocket, Patentcase.find(priority.parent_id) %></td>
+      
+   
+      <td><%= link_to 'Show', priority %></td>
+      <td><%= link_to 'Edit', edit_priority_path(priority) %></td>
+      <td><%= link_to 'Destroy', priority, :confirm => 'Are you sure?', :method => :delete %></td>
+   </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New priority', new_priority_path %>

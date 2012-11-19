@@ -1,0 +1,16 @@
+<p>
+  <b>User:</b>
+  <%=h @user_reminder.user_id %>
+</p>
+<td><%=h User.find(@user_reminder.user_id).name %></td>
+    
+<p>
+  <b>Reminder:</b>
+  <%=h @user_reminder.reminder_id %>
+</p>
+
+<td><%=h Reminder.find(@user_reminder.reminder_id).note %></td>
+    <p>
+</p>
+<%= link_to 'Edit', edit_user_reminder_path(@user_reminder) %> |
+<%= link_to 'Back', user_reminders_path %>

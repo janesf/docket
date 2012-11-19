@@ -1,0 +1,62 @@
+<h1>New Rule</h1>
+
+<hr />
+
+<%= form_for(@rule) do |f| %>
+<%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+<table>
+  <tr>
+    <td align="right">
+      <%= f.label :type_id %>
+    </td>
+    <td>
+      <%= f.collection_select(:type_id, Type.find(:all), :id, :descrp, {:prompt => true}) %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <%= f.label :desc %>
+    </td>
+    <td>
+      <%= f.collection_select(:event_id, Event.find(:all), :id, :event, {:prompt => true}) %><%= link_to 'Add Events', new_event_path %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      Due 
+      <%= f.text_field :rmdroffset, :size => 2 %> 
+      months from 
+      <%= f.collection_select(:refdttype_id, Refdttype.find(:all), :id, :dttype, {:prompt => true}) %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <%= f.check_box :applytowatch %>
+    </td>
+    <td>
+      <%= f.label "For watching cases (not this case)." %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <%= f.label :reminder %>
+    </td>
+    <td>
+      <%= f.text_field :reminder %>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <%= f.submit 'Create' %>
+    </td>
+  </tr>
+</table>
+<% end %>
+
+<hr />
+
+<p align="center">
+<%= link_to 'Show All Rules', rules_path %>
+</p>

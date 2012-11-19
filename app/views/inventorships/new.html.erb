@@ -1,0 +1,33 @@
+<h1>New Inventorship</h1>
+<%u =3%>
+<%= form_for(@inventorship) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :patentcase_id %><br />    
+    <%if not params[:patentcase_id] = 0%>
+        <%u = params[:patentcase_id]%>
+        <%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:selected => params[:patentcase_id], :prumpt => true} ) %><br>
+        <%= f.label :inventor_id %><br />
+
+        <%= f.collection_select(:inventor_id, Inventor.find(:all), :id, :first, {:prompt => true}, :class => "inventor") %>
+        <%= f.collection_select(:inventor_id, Inventor.find_all_by_entity_id(Patentcase.find(params[:patentcase_id]).entity_id), :id, :first, {:prompt => true}, :class => "inventor") %>
+        
+    <%else%>
+        <%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true} ) %>     
+     <%= @inventorship.patentcase_id %><%=params[:patentcase_id]%><br>
+                <%= f.label :inventor_id %><br />
+         <%= f.collection_select(:inventor_id, Inventor.find(:all), :id, :last, {:prompt => true}, :class => "inventorship") %>
+        <%=h @selected_case%>
+        
+        
+    <%end%>
+<br>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+<%= link_to 'Back to All Inventorships', inventorships_path %>
+<%= link_to 'Inventor page', inventors_path %>
+<%= link_to 'Add New Inventor', new_inventor_path %>

@@ -1,0 +1,24 @@
+<h1>Editing actionrulelink</h1>
+
+<%= form_for(@actionrulelink) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :rule_id %><br />
+            <%= f.collection_select(:rule_id, Rule.find(:all), :id, :desc, {:prompt => true}) %>
+
+  </p>
+  <p>
+    <%= f.label :aaction_id %><br />    
+            <%= f.collection_select(:aaction_id, Type.find(:all), :id, :descrp, {:prompt => true}) %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @actionrulelink %> |
+<%= link_to 'Back', actionrulelinks_path %>&nbsp;&nbsp;<%= link_to 'Manager Actions ', aactions_path %>
+&nbsp;&nbsp;<%= link_to 'Manager Rules ', rules_path %>

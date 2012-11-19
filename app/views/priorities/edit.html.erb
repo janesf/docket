@@ -1,0 +1,28 @@
+<h1>Editing priority</h1>
+
+<%= form_for(@priority) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :parent_id %><br />
+          <%= f.collection_select(:parent_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
+</p>
+  <p>
+    <%= f.label :child_id %><br />
+    
+    <%= f.collection_select(:child_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
+<br><br>
+<%= f.label "Watching" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.label "Priority" %><br />
+&nbsp;&nbsp;<%= f.check_box :watching %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<%= f.check_box :priority %>
+
+</p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @priority %> |
+<%= link_to 'Back', priorities_path %>

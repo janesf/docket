@@ -1,0 +1,21 @@
+<h1>New rulereminderlink</h1>
+
+<%= form_for(@rulereminderlink) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :rule_id %><br />
+    <%= f.text_field :rule_id %>
+  </p>
+  <p>
+    <%= f.label :reminder_id %><br />
+    <%= f.text_field :reminder_id %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', rulereminderlinks_path %>

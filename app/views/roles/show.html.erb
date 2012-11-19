@@ -1,0 +1,34 @@
+<table>
+   <tr>
+      <th>Role</th>
+      <td><%=h @role.description %></td>
+   </tr>
+   <tr>
+      <th>Patent Data Access</th>
+      <td>
+         <% if @role.data_read == true and @role.data_write == true then %>
+            read/write
+         <% elsif @role.data_read == true then %>
+            read
+         <% elsif @role.data_write == true then %>
+            <em>write only</em>
+         <% else %>
+            none
+         <% end %>
+      </td>
+   </tr>
+   <tr>
+      <th>System Data Access</th>
+      <td>
+         <% if @role.system_readwrite == true then %>
+            read/write
+         <% else %>
+            none
+         <% end %>
+      </td>
+   </tr>
+</table>
+
+<%= link_to 'Edit', edit_role_path(@role) %> ::
+<%= link_to 'Delete', @role, :confirm => 'Are you sure?', :method => :delete %> ::
+<%= link_to 'List All', roles_path %>

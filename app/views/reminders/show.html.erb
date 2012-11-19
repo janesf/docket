@@ -1,0 +1,48 @@
+<h1>
+View Reminder
+</h1>
+
+<table>
+
+<tr><td align="right"><b>Due Date:</b></td>
+   <td><%=h @reminder.due_date %></td></tr>
+
+<tr><td align="right"><b>Case:</b></td>
+   <td><%= h Patentcase.find(@reminder.patentcase_id).attorneydocket %></td></tr>
+
+<tr><td align="right"><b>Note:</b></td>
+   <td><%=h @reminder.note %></td></tr>
+
+   <% if @reminder.completed == true or @reminder.dismissed == true then %>
+      <tr>
+         <td colspan="2"><ul>
+            <% if @reminder.completed == true then %>
+               <li>
+                  Completed 
+                  <% if @reminder.completing_action.blank? then %>
+                     <%= h @reminder.date_completed %>.
+                  <% else %>
+                     <%= h @reminder.date_completed %> by <%= h Type.find(Aaction.find(@reminder.completing_action).type_id).desc %> (<%= h Aaction.find(@reminder.completing_action).dtmailing %>).
+                  <% end %>
+               </li>
+            <% end %>
+            <% if @reminder.dismissed == true then %>
+               <li>
+                  Dismissed  
+                  <% if @reminder.dismissed_by.blank? then %>
+                     <%= h @reminder.date_dismissed %>.
+                  <% else %>
+                     <%= h @reminder.date_dismissed %> by <%= h User.find(@reminder.dismissed_by).name %>).
+                  <% end %>
+               </li>
+            <% end %>
+         </ul></td>
+      </tr>
+   <% end %>
+</table>
+
+
+
+<%= link_to 'Edit', edit_reminder_path(@reminder) %> ::
+<%= link_to 'Destroy', @reminder, :confirm => 'Are you sure?', :method => :delete %> ::
+<%= link_to 'List', reminders_path %>

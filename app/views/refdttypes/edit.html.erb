@@ -1,0 +1,22 @@
+<h1>Editing Reference Date Type</h1>
+
+<%= form_for(@refdttype) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :dttype %><br />
+    <%= f.text_field :dttype %>
+  </p>
+  <p>
+    <%= f.label :notes %><br />
+    <%= f.text_field :notes %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @refdttype %> ::
+<%= link_to 'List All', refdttypes_path %>

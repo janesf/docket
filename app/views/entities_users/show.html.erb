@@ -1,0 +1,16 @@
+<h1>Entity-User Association</h1>
+<p>
+  <b>Entity:</b>
+  <%=h Entity.find(@entities_user.entity_id).name %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h User.find(@entities_user.user_id).name %>
+</p>
+
+
+<%= button_to 'Edit', { :controller => "entities_users", :action => "edit", :entity_id => @entities_user.entity_id, :user_id => @entities_user.user_id } %>
+<%= button_to 'Delete', { :controller => "entities_users", :action => "destroy", :entity_id => @entities_user.entity_id, :user_id => @entities_user.user_id }, :confirm => 'Are you sure?', :method => :delete %>
+<%= link_to 'Entity-User Associations', entities_users_path %> ::
+<%= link_to 'Back', :back %>

@@ -1,0 +1,24 @@
+<h1>Listing caseinventors</h1>
+
+<table>
+  <tr>
+    <th>Inventor</th>
+    <th>Patentcase</th>
+    <th>Note</th>
+  </tr>
+
+<% @caseinventors.each do |caseinventor| %>
+  <tr>
+    <td><%=h caseinventor.inventor_id %></td>
+    <td><%=h caseinventor.patentcase_id %></td>
+    <td><%=h caseinventor.note %></td>
+    <td><%= link_to 'Show', caseinventor %></td>
+    <td><%= link_to 'Edit', edit_caseinventor_path(caseinventor) %></td>
+    <td><%= link_to 'Destroy', caseinventor, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New caseinventor', new_caseinventor_path %>

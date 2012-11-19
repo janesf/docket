@@ -1,0 +1,22 @@
+<h1>Listing rulereminderlinks</h1>
+
+<table>
+  <tr>
+    <th>Rule</th>
+    <th>Reminder</th>
+  </tr>
+
+<% @rulereminderlinks.each do |rulereminderlink| %>
+  <tr>
+    <td><%=h rulereminderlink.rule_id %></td>
+    <td><%=h rulereminderlink.reminder_id %></td>
+    <td><%= link_to 'Show', rulereminderlink %></td>
+    <td><%= link_to 'Edit', edit_rulereminderlink_path(rulereminderlink) %></td>
+    <td><%= link_to 'Destroy', rulereminderlink, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New rulereminderlink', new_rulereminderlink_path %>

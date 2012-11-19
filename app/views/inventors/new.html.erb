@@ -1,0 +1,101 @@
+<h1>New Inventor</h1>
+
+<%= form_for(@inventor) do |f| %>
+<table>
+    <%= render 'shared/error_messages', object: f.object %>
+   <tr><td align="right">Name</td>
+      <td>
+         <table>
+            <tr>
+               <td><%= f.text_field :first, :size=>'16' %></td>
+               <td><%= f.text_field :middle, :size=>'8' %></td>
+               <td><%= f.text_field :last, :size=>'16' %></td>
+            </tr>
+            <tr>
+               <td><small><small>first</small></small></td>
+               <td><small><small>middle</small></small></td>
+               <td><small><small>last</small></small></td>
+            </tr>
+         </table>
+      </td>
+   </tr>
+   <tr><td align="right">   <%= f.label :entity_id %></td>
+            <td><%= f.collection_select(:entity_id, Entity.all, :id, :name, {:prompt => true}) %></td>
+		</tr>
+   
+   <tr>
+      <td align="right">Mailing Address</td>
+      <td><table>
+         <tr>
+            <td colspan="3"><%= f.text_field :mastreet1 %></td>
+         </tr>
+         <tr>
+            <td colspan="3"><%= f.text_field :mastreet2 %></td>
+         </tr>
+         <tr>
+            <td><%= f.text_field :macity %></td>
+            <td><%= f.text_field :mastate, :size=>'4' %></td>
+            <td><%= f.text_field :mapostalcode, :size=>'12' %></td>
+         </tr>
+         <tr>
+            <td><small><small>city</small></small></td>
+            <td><small><small>state</small></small></td>
+            <td><small><small>postal code</small></small></td>
+         </tr>
+         <tr>
+            <td><%= f.text_field :macountry %></td>
+         </tr>
+         <tr>
+            <td><small><small>country</small></small></td>
+         </tr>
+      </table></td>
+   </tr>
+   <tr>
+      <td align="right">Residence</td>
+      <td><table>
+         <tr>
+            <td><%= f.text_field :resstate, :size=>'4' %></td>
+            <td><%= f.text_field :rescountry, :size=>'12' %></td>
+         </tr>
+         <tr>
+            <td><small><small>state</small></small></td>
+            <td><small><small>country</small></small></td>
+         </tr>
+      </table></td>
+   </tr>
+   <tr>
+      <td align="right">Citizenship</td>
+      <td><table>
+         <tr>
+            <td><%= f.text_field :citizenship, :size=>'12' %></td>
+         </tr>
+         <tr>
+            <td><small><small>country</small></small></td>
+         </tr>
+      </table></td>
+   </tr>
+   <tr>
+      <td align="right">Contact</td>
+      <td><table>
+         <tr>
+            <td><%= f.text_field :email %><br/><small><small>e-mail</small></small></td>
+         </tr>
+         <tr>
+            <td><%= f.text_field :phone1 %><br/><small><small>phone 1</small></small></td>
+         </tr>
+         <tr>
+            <td><%= f.text_field :phone2 %><br/><small><small>phone 2</small></small></td>
+         </tr>
+         <tr>
+            <td><%= f.text_field :phone3 %><br/><small><small>phone 3</small></small></td>
+         </tr>
+      </table></td>
+   </tr>
+   <tr><td align="right">   <%= f.submit 'Update' %>
+</table>
+<% end %>
+
+
+
+<%= link_to 'List Inventors', inventors_path %> ::
+<%= link_to 'Back', :back %>

@@ -1,0 +1,22 @@
+<h1>Listing Reference Date Types</h1>
+
+<table>
+  <tr>
+    <th>Reference Date Type</th>
+    <th>Notes</th>
+  </tr>
+
+<% @refdttypes.each do |refdttype| %>
+  <tr>
+    <td><%=h refdttype.dttype %></td>
+    <td><%=h refdttype.notes %></td>
+    <td><%= link_to 'Show', refdttype %></td>
+    <td><%= link_to 'Edit', edit_refdttype_path(refdttype) %></td>
+    <td><%= link_to 'Destroy', refdttype, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Reference Date Type', new_refdttype_path %>

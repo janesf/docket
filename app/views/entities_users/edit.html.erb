@@ -1,0 +1,20 @@
+<h1>Editing Entity-User Association</h1>
+
+<%= form_for(@entities_user) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+<fieldset>
+<legend>Enter Entity-User Association Details</legend>
+<div><%= f.label :entity_id %>: 
+    <%= f.collection_select(:entity_id, Entity.find(:all), :id, :name, {:prompt => true}) %></div>
+<div><%= f.label :user_id %>: 
+    <%= f.collection_select(:user_id, User.find(:all), :id, :name, {:prompt => true}) %></div>
+<div><%= f.submit 'Update' %></div>
+</fieldset>
+<% end %>
+<%= button_to 'Delete', { :controller => "entities_users", :action => "destroy", :entity_id => @entities_user.entity_id, :user_id => @entities_user.user_id }, :confirm => 'Are you sure?', :method => :delete %>
+
+<%= link_to 'Entity-User Associations', entities_users_path %> ::
+<%= link_to 'Back', :back %>

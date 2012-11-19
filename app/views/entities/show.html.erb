@@ -1,0 +1,72 @@
+<h1><%=h @entity.name %></h1>
+
+<table border="1">
+<tr>
+  <td align="center" style="vertical-align:middle"><b>Type</b></td>
+  <td><%=h @entity.jurisdiction %> <%=h @type %></td>
+</tr>
+<tr>
+  <td align="center" style="vertical-align:middle"><b>Address and Phones</b></td>
+  <td>
+    <%=h @entity.name %>
+    <br/><%=h @entity.address1 %>
+    <% if @entity.address2 != '' and @entity.address2 != nil %>
+      <br/><%=h @entity.address2 %>
+    <% end %>
+    <br/><%=h @entity.city %>, <%=h @entity.state %> <%=h @entity.postalcode %>
+    <br/><%=h @entity.country %>
+    <br/>phone: <%=h @entity.mainphone %>
+    <br/>fax: <%=h @entity.mainfax %>
+  </td>
+</tr>
+<tr>
+  <td align="center" style="vertical-align:middle"><b>Contact</b></td>
+  <td>
+    <%=h @entity.contactname %>
+    <br/>phone: <%=h @entity.contactphone %>
+    <br/>fax: <%=h @entity.contactfax %>
+    <br/>email: <%=h @entity.contactemail %>
+  </td>
+</tr>
+<tr>
+  <td align="center" style="vertical-align:middle"><b>Notes</b></td>
+  <td>
+    Small? <%=h @entity.small %>
+    <br/>Last checked: <%=h @entity.smallchecked %>
+  </td>
+</tr>
+<tr>
+  <td align="center" colspan="2"><b>Patent Case(s) of <%=h @entity.name %>:</b></td>
+</tr>
+  <% Patentcase.find_all_by_entity_id(@entity.id).each do |a| %>
+    <tr>
+      <td colspan="2">
+        <%=link_to a.attorneydocket, a%>
+        <br/><%=h a.title%>
+        <br/><%=h Countrycode.find(a.jurisdiction).ccode %>&nbsp;<%=h a.applicationnumber%> (<%=h a.filingdate%>)
+        <br/>by: <% Inventorship.find_all_by_patentcase_id(a.id).each do |b| %>
+                      <% Inventor.find_all_by_id(b.inventor_id).each do |a| %>
+                        <%= link_to a.first+" "+a.last, Inventor.find(a.id)%>, 
+                      <% end %>
+            <% end %>
+      </td>
+    </tr>
+  <%end%>
+<tr>
+  <td align="center" colspan="2"><%= link_to 'Manage Pantent Case(s)', patentcases_path %></td>
+</tr>
+<tr>
+  <td align="center" colspan="2"><b>Inventor(s) of <%=h @entity.name %>:</b></td>
+</tr>
+  <% Inventor.find_all_by_entity_id(@entity.id).each do |a| %>
+    <tr>
+      <td colspan="2"><%= link_to a.first+" "+a.last, Inventor.find(a.id)%></td>
+    </tr>
+  <%end%>
+<tr>
+  <td align="center" colspan="2"><%= link_to 'Manage Entity ID field in Inventors table', inventors_path %></td>
+</tr>
+</table>
+<%= link_to 'Edit this entity', edit_entity_path(@entity) %> ::
+<%= link_to 'List entities', entities_path %> ::
+<%= link_to 'List patent cases', patentcases_path %>

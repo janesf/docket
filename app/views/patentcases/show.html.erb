@@ -1,0 +1,194 @@
+<!-- Main Patent Case Information -->
+
+<h1> <%=h @patentcase.attorneydocket %></h1>
+<p>
+ <%= link_to Entity.find(@patentcase.entity_id).name , @patentcase.entity %><br/>
+ <%=h Countrycode.find(@patentcase.jurisdiction).ccode %>&nbsp;<%=h @patentcase.applicationnumber %>
+(<%=h @patentcase.filingdate %>) (<%= link_to 'edit', edit_patentcase_path(@patentcase) %>)<br/>
+For: <%=h @patentcase.title %><br/>
+by 
+
+<% Inventorship.find_all_by_patentcase_id(@patentcase.id).each do |b| %>
+      <% Inventor.find_all_by_id(b.inventor_id).each do |a| %>
+              <%= link_to a.first+" "+a.middle+" "+a.last, Inventor.find(a.id) %>, 
+       <% end %>
+<% end %>
+
+(<%= link_to 'edit inventorship', new_inventorship_path %>)
+</p>
+
+<hr />
+
+
+<!-- Priority claims -->
+
+<p>
+<b>Priority:</b>&nbsp;[<%= link_to 'add', new_priority_path %>]
+
+<ul>
+   <% Priority.find_all_by_child_id(@patentcase.id).each do |priority| %>
+      <% if priority.priority %>
+         <% Patentcase.find_all_by_id(priority.parent_id).each do |parent| %>
+         <li>
+            <%= link_to Countrycode.find(parent.jurisdiction).ccode+'&nbsp;'+parent.applicationnumber, Patentcase.find(parent.id)%>
+            (<%=h parent.filingdate %>)<br/>
+            <%= link_to parent.attorneydocket, parent %> (<%= parent.title %>) 
+            [<%= link_to 'remove', priority, :confirm => 'Are you sure?', :method => :delete %>]
+         </li>
+         <% end %>
+      <% end %>
+   <% end %>
+</ul>
+</p>
+
+
+<!-- Watched cases -->
+
+<p>
+ <b>Watching these cases:</b>&nbsp;[<%= link_to 'add', new_priority_path %>]
+<ul>
+   <% Priority.find_all_by_child_id(@patentcase.id).each do |priority| %>
+      <% if priority.watching %>
+         <% Patentcase.find_all_by_id(priority.parent_id).each do |parent| %>
+         <li>
+            <%= link_to Countrycode.find(parent.jurisdiction).ccode+'&nbsp;'+parent.applicationnumber, parent %>
+            (<%=h parent.filingdate %>)<br/>
+            <%= link_to parent.attorneydocket, parent %> (<%= parent.title %>) 
+            [<%= link_to 'cancel', priority, :confirm => 'Are you sure?', :method => :delete %>]
+         </li>
+         <% end %>
+      <% end %>
+   <% end %>
+</ul>
+</p>
+
+<!-- Additional bibliographic information -->
+
+
+<table>
+  <tr>
+    <td align="right">
+      Responsible entity:
+    </td>
+    <td>
+      <%= h Entity.find(@patentcase.responsible).name %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Non-publication requested:
+    </td>
+    <td>
+      <%=h @patentcase.reqnonpublish %>
+    </td>
+  </tr>
+
+<% if @patentcase.reqnonpublish %>
+  <tr>
+    <td align="right">
+      Request for non-publication rescinded:
+    </td>
+    <td>
+      <%=h @patentcase.rescindnonpub %>
+    </td>
+  </tr>
+<% end %>
+
+<% if @patentcase.publication_no != '' %>
+  <tr>
+    <td align="right">
+      Published:
+    </td>
+    <td>
+      <%= h Countrycode.find(@patentcase.jurisdiction).ccode %>&nbsp;<%= h @patentcase.publication_no %>&nbsp;(<%= h @patentcase.published %>)
+    </td>
+  </tr>
+<% end %>
+
+
+  <tr>
+    <td align="right">
+      Examiner:
+    </td>
+    <td>
+      <%= h @patentcase.examiner %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Technology center:
+    </td>
+    <td>
+      <%= h @patentcase.techcenter %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Confirmation no:
+    </td>
+    <td>
+      <%= h @patentcase.conf_no %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Small entity?
+    </td>
+    <td>
+      <%= h @patentcase.smallentity %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Foreign filing license:
+    </td>
+    <td>
+      <%= h @patentcase.forfilinglicense %>
+    </td>
+  </tr>
+</table>
+
+<hr />
+
+<!-- List of Actions for the subject patent case -->
+
+<table border="1">
+  <tr>
+    <th colspan="2">
+      Action(s):
+    </th>
+    <th>
+      <%= link_to 'new action', new_aaction_path %> :: <%= link_to 'manage actions', aactions_path %>
+    </th>
+  </tr>
+
+<% @patentcase.aactions.each do |aaction| %>
+   <tr>
+      <td><%= h aaction.dtmailing %></td>
+      <td>
+         <%= link_to aaction.type.descrp, edit_aaction_path(aaction) %>
+      </td>
+      <td><%= h aaction.notes %></td>
+   </tr>
+   <tr>
+      <td colspan="3">
+         <table cellpadding="5">
+         <tr>
+            <th>To Do:</th>
+            <th><%= link_to '(manage reminders)', reminders_path %></th>
+         </tr>
+      <% aaction.reminders.each do |reminder| %>
+         <tr>
+            <td>
+               <%= h reminder.due_date %>
+            </td>
+            <td><%= link_to reminder.note, reminder %></td>
+         </tr>
+      <% end %>
+         </table>
+      </td>
+   </tr>
+<% end %>
+</table>
+<hr/>
+<%= link_to 'Back to All Cases', patentcases_path %>

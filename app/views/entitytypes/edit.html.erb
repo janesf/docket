@@ -1,0 +1,18 @@
+<h1>Editing entitytype</h1>
+
+<%= form_for(@entitytype) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :descrp %><br />
+    <%= f.text_field :descrp %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @entitytype %> |
+<%= link_to 'Back', entitytypes_path %>

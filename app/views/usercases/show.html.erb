@@ -1,0 +1,13 @@
+<p>
+  <b>User:</b>
+  <%=h @usercase.user_id %>
+</p>
+
+<p>
+  <b>Patentcase:</b>
+  <%=h @usercase.patentcase_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_usercase_path(@usercase) %> |
+<%= link_to 'Back', usercases_path %>

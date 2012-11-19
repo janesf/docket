@@ -1,0 +1,30 @@
+<p>
+
+   <% child = Patentcase.find(@priority.child_id ) %>
+   <%= link_to child.attorneydocket, child %> 
+   (<%=h Countrycode.find(child.jurisdiction).ccode %>&nbsp;<%= h child.applicationnumber %>)
+   
+   <br/>
+   
+   <% if @priority.watching and @priority.priority then %>
+      claims priory of and is watching
+   <% elsif @priority.watching then %>
+      is watching
+   <% elsif @priority.priority then %>
+      claims priory of
+   <% else %>
+      has no relation to
+   <% end %>
+   
+   <br/>
+   
+   <% parent = Patentcase.find(@priority.parent_id ) %>
+   <%= link_to parent.attorneydocket, parent %> 
+   (<%=h Countrycode.find(parent.jurisdiction).ccode %>&nbsp;<%= h parent.applicationnumber %>)
+   
+</p>
+
+   <hr/>
+   
+<%= link_to 'edit this priority', edit_priority_path(@priority) %> ::
+<%= link_to 'list priorities', priorities_path %>

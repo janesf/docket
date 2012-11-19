@@ -1,0 +1,124 @@
+<h1>Show Rule</h1>
+
+<hr />
+
+<!-- Rule Table -->
+<table>
+  <tr>
+    <td align="right">
+      <b>Action Type:</b>
+    </td>
+    <td>
+      <%=link_to Type.find(@rule.type_id).descrp, Type.find(@rule.type_id) %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <b>Required Response:</b>
+    </td>
+    <td>
+      <%=link_to Event.find(@rule.event_id).event, Event.find(@rule.event_id) %>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      Due 
+      <b><%= @rule.rmdroffset %></b>
+      months from 
+      <b><%= Refdttype.find(@rule.refdttype_id).dttype %></b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <% if @rule.applytowatch then %>
+        This rule is applicable to <b>watching case(s)</b> of the subject case.
+      <% else %>
+        This rule is applicable to <b>the subject case</b>.
+      <% end %>
+    </td>
+  </tr>
+
+<!-- Sub-Table to show actions using this rule -->
+
+  <tr>
+    <td colspan="2" cellpadding="10">
+      <table>
+        <tr>
+          <th align="center" colspan="2">
+            Action(s) linked to this rule by its type:
+          </th>
+        </tr>
+        <%Aaction.find_all_by_type_id(@rule.type_id).each do |c|%>
+        <tr>
+          <td><%= link_to Patentcase.find(c.patentcase_id).attorneydocket, Patentcase.find(c.patentcase_id)%></td>
+          <td><%= link_to c.dtmailing, c %>: <%=link_to Type.find(@rule.type_id).descrp, Type.find(@rule.type_id) %></td>
+        </tr>
+        <% if c.notes == '' or c.notes == nil then %>
+          <tr>
+            <td><b>Notes:</b></td>
+            <td><%=h c.notes %></td>
+          </tr>
+        <% end %>
+
+<!-- Sub-Sub-Table to show reminders using this action and this rule -->
+
+        <tr><td colspan="2" cellpadding="10">
+          <table>
+            <tr><th align="center" colspan="2">
+              (Other) Rules and calculations apply to this action:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= link_to 'Manage Rules', rules_path %>
+            </th></tr>
+            <% Rule.find_all_by_type_id(Aaction.find(c.id).type_id).each do |a| %>
+              <tr>
+                <td>
+                  <%= month_offset=a.rmdroffset.to_i
+                      case a.refdttype_id
+                        when 1 then 
+                          relevant_date=c.dtmailing 
+                          due_date=relevant_date>>month_offset
+                          due_date.to_s
+                        when 2 then  
+                          relevant_date=Patentcase.find(c.patentcase_id).filingdate 
+                          due_date=relevant_date>>month_offset
+                          due_date.to_s
+                        when 3 then 
+                          relevant_date= Patentcase.find(Priority.find_by_child_id(Patentcase.find(c.patentcase_id)).parent_id).filingdate 
+                          due_date=relevant_date>>month_offset
+                          due_date.to_s
+                        else ""
+                      end %>
+                </td>
+                <td><%= link_to Event.find(a.event_id).event, a %></td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                      <%= image_tag("arrow.gif") %>
+                      <small><%= link_to( a.rmdroffset, edit_rule_path(a) ) + " months from " %>
+                             <%=          
+                                  case a.refdttype_id
+                                  when 1 then "action mailing date (" + c.dtmailing.to_s + '),'
+                                  when 2 then "case filing date (" + Patentcase.find(c.patentcase_id).filingdate.to_s + '),'
+                                  when 3 then 
+                                    "case priority date (" + Patentcase.find(Priority.find_by_child_id(Patentcase.find(c.patentcase_id)).parent_id).filingdate.to_s + '),'
+                                  else "some date,"
+                                  end  
+                              %>
+                               approx. <%= (due_date - Date.today).to_s %> days from today.</small>
+                </td>
+              </tr>stroy
+            <% end %>
+          </table>  <!-- end of sub-sub-table for reminders of this action and this rule -->
+        </td></tr>
+
+        <%end%>
+      </table>  <!-- end of sub-table for actions of this rstroyule -->
+    </td>
+  </tr>
+</table>
+<hr />
+<table align="center">
+<tr>
+<td><%= button_to 'Edit this rule', edit_rule_path(@rule) %></td>
+<td><%= button_to 'Delete this rule', @rule, :confirm => 'Are you sure?', :method => :delete %></td>
+<td><%= button_to 'List all rules', rules_path %></td>
+</tr>
+</table>

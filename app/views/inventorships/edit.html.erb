@@ -1,0 +1,22 @@
+<h1>Editing inventorship</h1>
+
+<%= form_for(@inventorship) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+  <p>
+    <%= f.label :patentcase_id %><br />
+    <%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id,:title, {:prompt => true}) %>
+  </p>
+  <p>
+    <%= f.label :inventor_id %><br />
+    
+      <%= f.collection_select(:inventor_id, Inventor.find_all_by_entity_id(Patentcase.find(@inventorship.patentcase_id).entity_id), :id, :first, {:prompt => true}) %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @inventorship %> |
+<%= link_to 'Back', inventorships_path %>

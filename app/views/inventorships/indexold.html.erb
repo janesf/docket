@@ -1,0 +1,32 @@
+<h1>Listing inventorships</h1>
+
+<table>
+  <tr>
+    <th>Pat.CaseID</th>
+    <th>InventorID</th><th>Docket</th><th>Title</th><th>Inventor Name</th><th></th>
+    
+  </tr>
+
+<% @inventorships.each do |inventorship| %>
+  <tr>
+    <td><%=h inventorship.patentcase_id %></td>
+    <td><%=h inventorship.inventor_id %></td>
+    <td><%= link_to Patentcase.find(inventorship.patentcase_id ).attorneydocket, Patentcase.find(inventorship.patentcase_id ) %></td>
+
+    <td><%=h Patentcase.find(inventorship.patentcase_id ).title %></td>&nbsp;
+    <td><%= link_to Inventor.find(inventorship.inventor_id ).first, Inventor.find(inventorship.inventor_id ) %></td>
+<td><%=h Inventor.find(inventorship.inventor_id ).middle %>&nbsp;
+<td><%=h Inventor.find(inventorship.inventor_id ).last %></td>
+    
+    <td><%= link_to 'Show', inventorship %></td>
+    <td><%= link_to 'Edit', edit_inventorship_path(inventorship) %></td>
+    <td><%= link_to 'Destroy', inventorship, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New inventorship', new_inventorship_path %>
+<%= link_to 'Patentcase page', patentcases_path %>
+<%= link_to 'Inventors page', inventors_path %>

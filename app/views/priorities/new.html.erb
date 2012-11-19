@@ -1,0 +1,23 @@
+<h1>New Inter-Case Relationship</h1>
+
+<% @priority.child_id = session[:patentcase] %>
+
+<%= form_for(@priority) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+<table>
+<tr><td align="right"><%= f.label :parent_id %><%= f.label " Case:" %></td>
+<td><%= f.collection_select(:parent_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %></td></tr>
+<tr><td align="right"><%= f.label :child_id %><%= f.label " Case:" %></td>
+<td><%= f.collection_select(:child_id, Patentcase.find(:all, :conditions => ["id <> ?", :parent_id]), :id, :attorneydocket, {:prompt => true}) %></td></tr>
+<tr><td align="right"><%= f.check_box :watching %></td>
+<td><%= f.label "Watching parent" %></td></tr>
+<tr><td align="right"><%= f.check_box :priority %></td>
+<td><%= f.label "Claiming priority of parent" %></td></tr>
+<tr><td align="center" colspan="2"><%= f.submit 'Create' %></td></tr>
+</table>
+<% end %>
+
+<%= link_to 'list priorities', priorities_path %>

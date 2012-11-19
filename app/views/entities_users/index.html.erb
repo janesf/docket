@@ -1,0 +1,21 @@
+<h1>Listing Entity-User Associations</h1>
+
+<table>
+  <tr>
+    <th>Entity</th>
+    <th>User</th>
+  </tr>
+
+<% @entities_users.each do |entity_user| %>
+  <tr>
+    <td><%=h Entity.find(entity_user.entity_id).name %></td>
+    <td><%=h User.find(entity_user.user_id).name %></td>
+    <td><%= link_to 'Show', { :controller => "entities_users", :action => "show", :entity_id => entity_user.entity_id, :user_id => entity_user.user_id } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Entity-User Association', { :controller => "entities_users", :action => "new" } %>
+<%= link_to 'Back', :back %>

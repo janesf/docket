@@ -1,0 +1,22 @@
+<h1>Listing usercases</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+   <th>Patentcase</th>
+   </tr>
+
+<% @usercases.each do |usercase| %>
+  <tr>
+    <td><%=h User.find(usercase.user_id).name %></td>
+    <td><%=h Patentcase.find(usercase.patentcase_id).attorneydocket %></td>
+    <td><%= link_to 'Show', usercase %></td>
+    <td><%= link_to 'Edit', edit_usercase_path(usercase) %></td>
+    <td><%= link_to 'Destroy', usercase, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New usercase', new_usercase_path %>

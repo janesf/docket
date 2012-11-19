@@ -1,0 +1,28 @@
+<h1>Action Types</h1>
+
+<hr />
+
+<table>
+  <tr>
+    <th>Desc</th>
+  </tr>
+
+<% @types.each do |type| %>
+  <tr>
+    
+    <td><%= link_to type.descrp, type %></td>
+    <td>
+      <%= link_to 'Show', type %>
+      <%= link_to 'Edit', edit_type_path(type) %>
+      <%= link_to 'Destroy', type, :confirm => 'Are you sure?', :method => :delete %>
+    </td>
+  </tr>
+<% end %>
+
+</table>
+
+<hr />
+
+<p align="center">
+<%= link_to 'New type', new_type_path %>
+</p>

@@ -1,0 +1,22 @@
+<h1>Editing rstatus</h1>
+
+<%= form_for(@rstatus) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :statuscd %><br />
+    <%= f.text_field :statuscd %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @rstatus %> |
+<%= link_to 'Back', rstatuses_path %>

@@ -1,0 +1,37 @@
+<h1>reminders</h1>
+<%= link_to 'New reminder', new_reminder_path %>
+<hr />
+
+<table border= "1">
+  <tr class="tr1">
+    <th>Type</th>
+    <th>Desc</th>
+    <th>Relevent Dt</th>
+
+    <th>Rmdroffset</th>
+    <th>Watch</th>
+    <th>PatentCase</th>
+    <th>Action Date</th>
+
+  </tr>
+
+<% @reminders.each do |reminder| %>
+  <% style_select = row % 2 %>
+  <tr style="<%= cycle('tr0', 'tr1') %>">
+
+    <td><%=link_to Type.find(reminder.type_id).descrp,  Type.find(reminder.type_id)%></td>
+    <td><%=link_to Event.find(reminder.event_id).event, edit_reminder_path(reminder) %></td>
+
+    <td><%=h Refdttype.find(reminder.refdttype_id).dttype %></td>
+
+    <td><%=link_to reminder.rmdroffset, edit_reminder_path(reminder) %></td>
+    <td><%=h reminder.applytowatch %></td>
+     <td><%=h Patentcase.find(reminder.case_id).attorneydocket %></td>
+    <td><%=h Aaction.find(reminder.action_id).dtmailing %></td>
+   <td>
+      <%= link_to 'Show', reminder %>
+      <%= link_to 'Edit', edit_reminder_path(reminder) %>
+      <%= link_to 'Destroy', reminder, :confirm => 'Are you sure?', :method => :delete %>
+    </td>
+  </tr>
+<% end %>

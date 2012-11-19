@@ -1,0 +1,21 @@
+<p>
+  <b>Inventor:</b>
+  <%=h @inventorship.inventor_id %>
+  <%=h Inventor.find(@inventorship.inventor_id).last %>,&nbsp;
+  <%=h Inventor.find(@inventorship.inventor_id).first %>&nbsp;
+  <%=h Inventor.find(@inventorship.inventor_id).middle %>
+  
+</p>
+
+<p>
+  <b>Patentcase:</b>
+  <%=h @inventorship.patentcase_id %>
+  <%=h Patentcase.find(@inventorship.patentcase_id).attorneydocket %>&nbsp;
+  <%=h Patentcase.find(@inventorship.patentcase_id).jurisdiction %>&nbsp;
+  <%=h Patentcase.find(@inventorship.patentcase_id).applicationnumber %>
+
+</p>
+
+
+<%= link_to 'Edit', edit_inventorship_path(@inventorship) %> |
+<%= link_to 'Back', inventorships_path %>

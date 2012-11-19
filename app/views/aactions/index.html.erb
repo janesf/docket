@@ -1,0 +1,30 @@
+<h1>Actions</h1>
+<table border="1">
+  <tr>
+    <th>Patentcase</th>
+    <th>Type</th>
+    <th>Date of mailing</th>
+  </tr>
+<% @aactions.each do |aaction| %>
+  <tr>    
+    <td><%=link_to Patentcase.find(aaction.patentcase_id).attorneydocket,Patentcase.find(aaction.patentcase_id) %></td>
+    <td><%= link_to Type.find(aaction.type_id).descrp, Type.find(aaction.type_id) %></td>
+    <td>(<%=link_to aaction.dtmailing, aaction %>)</td>
+    <% if aaction.notes == '' or aaction.notes == nil then
+      notes_row = ''
+      td_links = '<td>'
+    else
+      notes_row = '<tr><td colspan="3"><small><small><ul><li>' + h(aaction.notes) + '</li></ul></small></small></td></tr>'
+      td_links = '<td rowspan="2">'
+    end %>
+    <%= td_links %>
+      <%= link_to 'Show', aaction %>
+      <%= link_to 'Edit', edit_aaction_path(aaction) %>
+      <%= link_to 'Destroy', aaction, :confirm => 'Are you sure?', :method => :delete %>
+    </td>
+    <%= notes_row %>
+  </tr>
+<% end %>
+</table>
+<hr />
+<%= link_to 'New action', new_aaction_path %>

@@ -1,0 +1,204 @@
+<!-- Main Patent Case Information -->
+
+<h1> <%=h @patentcase.attorneydocket %></h1>
+<p>
+ <%= link_to Entity.find(@patentcase.entity_id).name , @patentcase.entity %><br>
+ <%=h Countrycode.find(@patentcase.jurisdiction).ccode %>&nbsp;<%=h @patentcase.applicationnumber %>
+(<%=h @patentcase.filingdate %>) <br>
+For: <%=h @patentcase.title %><br>
+by 
+
+<% Inventorship.find_all_by_patentcase_id(@patentcase.id).each do |b| %>
+      <% Inventor.find_all_by_id(b.inventor_id).each do |a| %>
+              <%= link_to a.first+" "+a.middle+" "+a.last, Inventor.find(a.id) %>, 
+       <% end %>
+<% end %>
+
+(<%= link_to 'edit inventorship', new_inventorship_path %>)
+</p>
+
+<hr />
+
+
+<!-- Priority claims -->
+
+<p>
+<b>Priority:</b>&nbsp;(<%= link_to 'edit', priorities_path %>)
+
+<ul>
+<%Priority.find_all_by_child_id(@patentcase.id).each do |c| %>
+          <% if c.priority %>
+            <%Patentcase.find_all_by_id(c.parent_id).each do |a| %>
+              <li>
+		<%= link_to Countrycode.find(a.jurisdiction).ccode+'&nbsp;'+a.applicationnumber, Patentcase.find(a.id)%>
+		(<%=h a.filingdate %>)
+              </li>
+            <% end %>
+          <% end %>
+<% end %>
+</ul>
+</p>
+
+
+<!-- Watched cases -->
+
+<p>
+ <b>Watching these cases:</b>&nbsp;(<%= link_to 'edit', priorities_path %>)
+<ul>
+ <%Priority.find_all_by_child_id(@patentcase.id).each do |c| %>
+        <% if c.watching%>
+            <%Patentcase.find_all_by_id(c.parent_id).each do |a| %>
+              <li>
+		<%= link_to Countrycode.find(a.jurisdiction).ccode+'&nbsp;'+a.applicationnumber, Patentcase.find(a.id) %>
+                     (<%=h a.filingdate %>)
+                      <%= link_to a.attorneydocket, Patentcase.find(a.id) %> (<%= a.title %>)
+	      </li>
+            <% end %>
+        <% end %>
+<% end %>
+</ul>
+</p>
+
+<!-- Additional bibliographic information -->
+
+
+<table>
+  <tr>
+    <td align="right">
+      Responsible entity:
+    </td>
+    <td>
+      <%= h Entity.find(@patentcase.responsible).name %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Non-publication requested:
+    </td>
+    <td>
+      <%=h @patentcase.reqnonpublish %>
+    </td>
+  </tr>
+
+<% if @patentcase.reqnonpublish %>
+  <tr>
+    <td align="right">
+      Request for non-publication rescinded:
+    </td>
+    <td>
+      <%=h @patentcase.rescindnonpub %>
+    </td>
+  </tr>
+<% end %>
+
+<% if @patentcase.publication_no != '' %>
+  <tr>
+    <td align="right">
+      Published:
+    </td>
+    <td>
+      <%= h Countrycode.find(@patentcase.jurisdiction).ccode %>&nbsp;<%= h @patentcase.publication_no %>&nbsp;(<%= h @patentcase.published %>)
+    </td>
+  </tr>
+<% end %>
+
+
+  <tr>
+    <td align="right">
+      Examiner:
+    </td>
+    <td>
+      <%=h @patentcase.examiner %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Technology center:
+    </td>
+    <td>
+      <%=h @patentcase.techcenter %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Confirmation no:
+    </td>
+    <td>
+      <%=h @patentcase.conf_no %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Small entity?
+    </td>
+    <td>
+      <%=h @patentcase.smallentity %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      Foreign filing license:
+    </td>
+    <td>
+      <%=h @patentcase.forfilinglicense %>
+    </td>
+  </tr>
+</table>
+
+<hr />
+
+<!-- List of Actions for the subject patent case -->
+
+<table border="1">
+  <tr>
+    <th colspan="2">
+      Action(s):
+    </th>
+    <th>
+      <%= link_to '(edit actions)', aactions_path %>
+    </th>
+  </tr>
+
+<% Aaction.find_all_by_patentcase_id(@patentcase.id).each do |c| %>
+  <tr>
+    <td><%= c.dtmailing.to_s %></td>
+    <td>
+      <%= link_to Type.find(c.type_id).descrp, edit_aaction_path(c) %>
+    </td>
+    <td><%= c.notes %></td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <table cellpadding="5">
+        <tr>
+          <th>To Do:</th>
+          <th><%= link_to '(manage rules)', rules_path %></th>
+        </tr>
+     <% Rule.find_all_by_type_id(c.type_id).each do |a| %>
+        <tr>
+          <td>
+            <%= month_offset=a.rmdroffset.to_i
+              case a.refdttype_id
+                when 1 then 
+                  relevant_date=c.dtmailing 
+                  due_date=relevant_date>>month_offset
+                  due_date.to_s
+                when 2 then  
+                  relevant_date=Patentcase.find(c.patentcase_id).filingdate 
+                  due_date=relevant_date>>month_offset
+                  due_date.to_s
+                when 3 then 
+                  relevant_date= Patentcase.find(Priority.find_by_child_id(Patentcase.find(c.patentcase_id)).parent_id).filingdate 
+                  due_date=relevant_date>>month_offset
+                  due_date.to_s
+                else ""
+              end %>
+          </td>
+          <td><%= link_to Event.find(a.event_id).event, a %></td>
+        </tr>
+      <% end %>
+      </table>
+    </td>
+  </tr>
+<% end %>
+</table>

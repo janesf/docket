@@ -1,0 +1,2 @@
+module EntitiesUsersHelper
+end

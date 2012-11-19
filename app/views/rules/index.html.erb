@@ -1,0 +1,43 @@
+<h1>Rules</h1>
+<%= button_to 'Create New Rule', new_rule_path %>
+<hr />
+
+<table border="1">
+  <tr>
+    <th>Action</th>
+    <th>Responsive Action</th>
+    <th>Due</th>
+    
+    <th>Relevant Case(s)</th>
+  </tr>
+<% row=0 %>
+<% @rules.each do |rule| %>
+  <% style_select = row % 2 %>
+  <%= '<tr style=".tr'+style_select.to_s+'">' %>
+    
+    <td><%=link_to Type.find(rule.type_id).descrp,  Type.find(rule.type_id)%></td>
+    <td><%=link_to Event.find(rule.event_id).event, edit_rule_path(rule) %></td>
+    
+    <td><%=link_to rule.rmdroffset, edit_rule_path(rule) %> months from <%=h Refdttype.find(rule.refdttype_id).dttype %></td>
+    <td>
+      <% if rule.applytowatch == true then %>
+         For watching cases.
+      <% else %>
+         For the subject case.
+      <% end %>
+    </td>
+    <td> 
+      <%= link_to 'Show', rule %> ::
+      <%= link_to 'Edit', edit_rule_path(rule) %> ::
+      <%= link_to 'Delete', rule, :confirm => 'Are you sure?', :method => :delete %>
+    </td>
+  </tr>
+  <% row+=1 %>
+<% end %>
+</table>
+
+<hr />
+
+<p align="center">
+<%= button_to 'Create New Rule', new_rule_path %>
+</p>

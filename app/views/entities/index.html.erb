@@ -1,0 +1,57 @@
+<h1>Entities List</h1>
+
+<%= link_to 'Create New Entity', new_entity_path %>
+<table border="1">
+  <tr>
+    <th>Entity</th>
+    <th>Contact</th>
+    <th>Notes</th>
+  </tr>
+
+<% @entities.sort_by{|e| e.name}.each do |entity| %>
+  <tr>
+
+    <!-- Main Entity Column -->
+    <td>
+       <%= link_to entity.name, entity %>
+       <br/><%=h entity.address1 %>
+       <% if entity.address2 != '' and entity.address2 != nil %>
+          <br/><%=h entity.address2 %>
+       <% end %>
+       <br/><%=h entity.city %>, <%=h entity.state %> <%=h entity.postalcode %>
+       <br/><%=h entity.country %>
+       <br/>main: <%=h entity.mainphone %>
+       <br/>fax: <%=h entity.mainfax %>
+    </td>
+
+    <!-- Entity Contact Column -->
+    <td>
+       <br/><%=h entity.contactname %>
+       <% if entity.contactphone != '' and entity.contactphone != nil %>
+          <br/><%=h entity.contactphone %>
+       <% end %>
+       <% if entity.contactfax != '' and entity.contactfax != nil %>
+          <br/><%=h entity.contactfax %>
+       <% end %>
+       <% if entity.contactemail != '' and entity.contactemail != nil %>
+          <br/><%=h entity.contactemail %>
+       <% end %>
+    </td>
+
+    <!-- Misc Entity Column -->
+    <td>
+       Type: <%=h entity.entitytype.descrp %>
+       <br/>Jurisdiction: <%=h entity.jurisdiction %>
+       <br/>Small? <%=h entity.small %>
+       <br/>As of:<%=h entity.smallchecked %>
+       <br/>Identifier: <%=h entity.id %>
+    </td>
+    
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Create New Entity', new_entity_path %> ::
+<%= link_to 'Back', :back %>

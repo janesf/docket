@@ -1,0 +1,38 @@
+<h1>New Event</h1>
+
+<hr />
+
+<%= form_for(@event) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+<table>
+  <tr>
+    <td align="right">
+      <%= f.label :event %>
+    </td>
+    <td>
+      <%= f.text_field :event %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <%= f.label :notes %>
+    </td>
+    <td>
+      <%= f.text_field :notes %>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <%= f.submit 'Create' %>
+    </td>
+  </tr>
+</table>
+<% end %>
+
+<hr />
+
+<p align="center">
+<%= link_to 'Show all events', events_path %>
+</p>

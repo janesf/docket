@@ -1,0 +1,49 @@
+<h1>Edit Action Type</h1>
+
+<hr />
+
+<%= form_for(@type) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+
+<table>
+  <tr>
+    <td align="right">
+      <%= f.label :tdesc %>
+    </td>
+    <td>
+      <%= f.text_field :descrp %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <%= f.label :tfinal %>
+    </td>
+    <td>
+      <%= f.check_box :final %>
+    </td>
+  </tr>
+  <tr>
+    <td align="right">
+      <%= f.label :notes %>
+    </td>
+    <td>
+      <%= f.text_area :notes %>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <%= f.submit 'Update' %>
+    </td>
+  </tr>
+</table>
+<% end %>
+
+<hr />
+
+<p align="center">
+<%= link_to 'Show this action type', @type %> ::
+<%= link_to 'Delete this action type', @type, :confirm => 'Are you sure?', :method => :delete %> ::
+<%= link_to 'Show all action types', types_path %>
+</p>
