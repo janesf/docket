@@ -13,6 +13,9 @@ Docket1::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :usercases
+  resources :sessions
+  resources :microposts,    only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
   resources :rstatuses
 
@@ -77,8 +80,10 @@ Docket1::Application.routes.draw do
 
   match '/signup',  to: 'users#new'
 
+  match '/signup',  :to => 'users#new'
+  match '/signin',  :to => 'sessions#new'
+  match '/signout', :to => 'sessions#destroy'
 
-  match '/signup',  to: 'users#new'
   match '/admin', to: 'admin#login'
   match '/help',    to: 'static_pages#help'
   match '/about',   to: 'static_pages#about'
@@ -89,11 +94,6 @@ Docket1::Application.routes.draw do
       get :following, :followers
     end
   end
-  resources :sessions,      only: [:new, :create, :destroy]
-  resources :microposts,    only: [:create, :destroy]
-  resources :relationships, only: [:create, :destroy]
-
-  resources :microposts  
 
   get "static_pages/home"
   get "static_pages/help"

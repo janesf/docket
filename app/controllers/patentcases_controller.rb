@@ -2,7 +2,7 @@ class PatentcasesController < ApplicationController
 
   # before_filter  :check_read_access
  #  before_filter  :check_write_access, :only => [:new, :edit, :create, :update, :destroy]
- before_filter :signed_in_user, only: [:create, :destroy]
+ before_filter :signed_in_user, only: [:create, :destroy, :index]
 
    def check_read_access
       unless current_user.role.data_read == true then
@@ -30,7 +30,7 @@ class PatentcasesController < ApplicationController
   # GET /patentcases.xml
   def index
    # @patentcases = Patentcase.find_by_sql( [ "select distinct p.* from patentcases p, usercases u where p.id = u.patentcase_id and user_id =(?) order by attorneydocket asc", current_user.id ] )
-     @patentcases = current_user.patentcases
+     @patentcases ||= current_user.patentcases
   #  session[:patentcase] = nil
 
     respond_to do |format|
