@@ -1,7 +1,9 @@
 class Patentcase < ActiveRecord::Base
   
    belongs_to :entity
-   has_many :users, :through => :entities, :uniq => true
+   
+   has_many :usercases
+   has_many :users, :through => :usercases, :uniq => true
    
    
    has_many :inventorships

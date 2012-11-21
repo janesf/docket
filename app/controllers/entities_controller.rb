@@ -2,7 +2,6 @@ class EntitiesController < ApplicationController
 
 #   before_filter  :check_read_access
    before_filter  :check_write_access, :only => [:new, :edit, :create, :update, :destroy]
-   @all_entitytypes = Entity.all_entitytypes
    
    def check_read_access
       unless current_user.role.data_read == true then
@@ -29,20 +28,44 @@ class EntitiesController < ApplicationController
    # GET /entities
    # GET /entities.xml
    def index
+     sort = params[:sort] || session[:sort]
+     case sort
+     when 'name'
+       ordering,@title_header = {:order => :title}, 'hilite'
+     when 'release_date'
+       ordering,@date_header = {:order => :release_date}, 'hilite'
+     end
+     @all_entitytypes = Entity.all_entitytypes
+     @selected_entitytypes = params[:entitytypes] || session[:entitytypes] || {}
+
+     if @selected_entitytypes == {}
+       @selected_entitytypes = Hash[@all_entitytypes.map {|entitytype| [entitytype, entitytype]}]
+     end
+
+     if params[:sort] != session[:sort]
+       session[:sort] = sort
+       flash.keep
+       redirect_to :sort => sort, :entitytypes => @selected_entitytypes and return
+     end
+
+     if params[:entitytypes] != session[:entitytypes] and @selected_entitytypes != {}
+       session[:sort] = sort
+       session[:entitytypes] = @selected_entitytypes
+       flash.keep
+       #redirect_to :sort => sort, :entitytypes => @selected_entitytypes and return
+       redirect_to :entitytypes => @selected_entitytypes and return
+     end
+     
+     @entities = Entity.find_all_by_entitytype(@selected_entitytypes.keys)  
      @selected_types = params[:entitytypes] || session[:entitytypes] || {}
 
      if @selected_entitytypes == {}
        @selected_entitytypes = Hash[@all_entitytypes.map {|entitytype| [entitytype, entitytype]}]
      end
      
-      if current_user.role.data_write == true then
-         @entities = Entity.all
-      else
-         @entities = current_user.entities
-      end
       # This was Jane's logic (I want users authorized per entity, not per case):
       #@entities = Entity.find_by_sql(["select distinct e.* from entities e, patentcases p, usercases u where u.patentcase_id = p.id and e.id = p.entity_id and u.user_id = (?) order by e.id", session[:user_id]])
-      session[:entity] = nil
+     # session[:entity] = nil
       respond_to do |format|
          format.html # index.html.erb
          format.xml  { render :xml => @entities }
@@ -53,7 +76,7 @@ class EntitiesController < ApplicationController
    # GET /entities/1.xml
    def show
       @entity = Entity.find(params[:id])
-      @type = @entity.entitytype.descrp
+      @type = @entity.entitytype
       session[:entity] = @entity.id
    
       respond_to do |format|

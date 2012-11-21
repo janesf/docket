@@ -1,6 +1,18 @@
 <h1>Entities List</h1>
 
 <%= link_to 'Create New Entity', new_entity_path %>
+<%= form_tag entities_path, :method => :get, :id => 'entitytypes_form' do %>
+
+
+  <%= hidden_field_tag "title_sort", true if @title_header %>
+  <%= hidden_field_tag ":release_date_sort", true if @date_header %>
+  Include:
+  <% @all_entitytypes.each do |entitytype| %>
+    <%= entitytype %>
+    <%= check_box_tag "entitytypes[#{entitytype}]", 1, @selected_entitytypes.include?(entitytype), :id => "entitytypes_#{entitytype}" %>
+<%end%>
+  <%= submit_tag 'Refresh', :id => 'entitytypes_submit' %>
+
 <table border="1">
   <tr>
     <th>Entity</th>
@@ -40,7 +52,11 @@
 
     <!-- Misc Entity Column -->
     <td>
-       Type: <%=h entity.entitytype.descrp %>
+	
+	   Type: 
+	
+		<%=h entity.entitytype %>
+    
        <br/>Jurisdiction: <%=h entity.jurisdiction %>
        <br/>Small? <%=h entity.small %>
        <br/>As of:<%=h entity.smallchecked %>
@@ -50,7 +66,7 @@
   </tr>
 <% end %>
 </table>
-
+<%end%>
 <br />
 
 <%= link_to 'Create New Entity', new_entity_path %> ::

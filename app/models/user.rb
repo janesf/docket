@@ -21,10 +21,10 @@ class User < ActiveRecord::Base
   def self.all_roles
     %w(SYSADMIN ATTORNEY STAFF PRINCIPAL AGENT SUPPORT)
   end  
-  
+  attr_accessor   :password
   
   attr_accessible :name, :email, :password, :password_confirmation
-  has_secure_password
+ # has_secure_password
   belongs_to :entity
   has_many :microposts, dependent: :destroy
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
@@ -44,7 +44,8 @@ class User < ActiveRecord::Base
   has_many :inventors, :through => :entities
   
   before_save { |user| user.email = email.downcase }
-  before_save :create_remember_token
+#  before_save :create_remember_token
+  before_save :encrypt_password
 
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -54,7 +55,6 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
-  attr_accessor   :password
   attr_accessible :name, :email, :password, :password_confirmation
   
   has_many :microposts,    :dependent => :destroy
@@ -83,7 +83,6 @@ class User < ActiveRecord::Base
 
   def admin?
   end
-
 
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)
