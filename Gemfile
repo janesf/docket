@@ -9,7 +9,7 @@ gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'annotate', '2.5.0'
 gem 'calendar_date_select', '1.16.4' 
-
+gem 'taps', '0.3.24'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 

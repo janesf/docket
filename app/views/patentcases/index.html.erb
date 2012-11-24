@@ -27,14 +27,14 @@
       <td>
          <%= h Countrycode.find(patentcase.jurisdiction).ccode %>&nbsp;<%= h patentcase.applicationnumber %> (<%= h patentcase.filingdate %>)
          <% unless patentcase.patentnumber.nil? then %>
-            <br /><%= h Countrycode.find(patentcase.jurisdiction).ccode %>&nbsp;<%= h patentcase.patentnumber %> (<%= h patentcase.issuedate %>)
+            <br /><%= h Countrycode.find(patentcase.jurisdiction).ccode.to_s %>&nbsp;<%= h patentcase.patentnumber.to_s %> (<%= h patentcase.issuedate.to_s %>)
          <% end %>
          <br /><em>Priority:</em>
          <% Priority.find_all_by_child_id(patentcase.id).each do |c| %>
                <% if c.priority %>
                   <% Patentcase.find_all_by_id(c.parent_id).each do |a| %>
                      <br />
-                     <%= link_to Countrycode.find(a.jurisdiction).ccode+'&nbsp;'+a.applicationnumber, Patentcase.find(a.id) %>
+                     <%= link_to Countrycode.find(a.jurisdiction).ccode.to_s+'&nbsp;'+a.applicationnumber.to_s, Patentcase.find(a.id) %>
                         (<%= h a.filingdate %>)
                   <% end %>
                <% end  %>
