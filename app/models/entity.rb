@@ -35,7 +35,7 @@ class Entity < ActiveRecord::Base
   has_many :patentcases
   has_many :inventors, through: :patentcases
   has_many :users
-  #belongs_to :entitytype
+  belongs_to :entitytype
   
   default_scope order: 'entities.created_at DESC'
   
