@@ -4,8 +4,8 @@ class CreatePriorities < ActiveRecord::Migration
       t.integer :parent_id
       t.integer :child_id
       t.text    :note
-      t.watch   :boolean
-      t.priority :boolean
+      t.boolean :watch
+      t.boolean :priority
       t.timestamps
     end
   end
