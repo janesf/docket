@@ -298,4 +298,19 @@ aside {
   margin-top: 45px;
   @include box_sizing;
 }
+#pageHeader {
+	position:absolute;
+	left:0px;
+	top:0px;
+	background:#202020 url(main_title.png) no-repeat;
+	height:50px;
+	width:100px;
+	padding-top:25px;
+	padding-bottom:25px;
+	padding-left:550px;
+	padding-right:50px;
+	text-align:center;
+	color:#CC3300;
+	font-weight:bold;
+}
 
