@@ -2,7 +2,7 @@ class CreateReminders < ActiveRecord::Migration
   def self.up
     create_table :reminders do |t|
       t.date :dtrmdr
-      t.string :case_id
+      t.integer :patentcase_id
       t.text :note
 
       t.timestamps
