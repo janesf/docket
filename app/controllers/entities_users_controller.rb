@@ -59,7 +59,7 @@ class EntitiesUsersController < ApplicationController
    
    # GET /roles/1/edit
    def edit
-      @entities_user = EntitiesUsers.find({params[:entity_id],params[:user_id]})
+      @entities_user = EntitiesUsers.first
    end
    
    # POST /roles
