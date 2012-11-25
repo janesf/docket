@@ -12,7 +12,7 @@ New Reminder
 
   <div>
     <%= f.label :due_date %>:
-    <%= f.date_select "reminder[due_date]", @reminder.due_date %>
+    <%= f.date_select "due_date"%>
   </div>
   <div>
     <%= f.label :case_id %>:
@@ -28,7 +28,7 @@ New Reminder
   </div>
   <div>
     <%= f.label :date_completed %>:
-    <%= f.date_select "reminder[date_completed]", @reminder.date_completed %>
+    <%= f.date_select "date_completed"%>
   </div>
   <div>
     <%= f.label :completing_action %>:
@@ -40,7 +40,7 @@ New Reminder
   </div>
   <div>
     <%= f.label :date_dismissed %>:
-    <%= f.date_select "reminder[date_dismissed]", @reminder.date_dismissed %>
+    <%= f.date_select "date_dismissed"%>
   </div>
   <div>
     <%= f.label :dismissed_by %>:
