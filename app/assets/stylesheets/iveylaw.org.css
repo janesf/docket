@@ -139,7 +139,7 @@ li { list-style: inside url(arrow_right.gif) 2px;
 	text-align:left;
 }
 
-#pgHeader {
+#pageHeader {
 	position:absolute;
 	left:0px;
 	top:0px;

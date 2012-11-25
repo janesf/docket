@@ -4,16 +4,12 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Attorney's Docket</title>
-  <%= stylesheet_link_tag 'iveylaw.org.css' %>
-
-
+  <%= stylesheet_link_tag 'application.css' %>
 </head>
 <header>
-	
+	<%= render 'layouts/header' %>
 </header>
 <body>
-	
-    <%= render 'layouts/header' %>
     <div class="container">
       <% flash.each do |key, value| %>
         <div class="alert alert-<%= key %>"><%= value %></div>
@@ -27,7 +23,7 @@
     </div>
 
 <div id="container">
-<div id="pageHeader">IveyLaw Patent Case Management</div>
+<div id="pagHeader">IveyLaw Patent Case Management</div>
 <div id="titleBar">
 
 <%= link_to "Home", patentcases_path %>

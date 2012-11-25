@@ -55,19 +55,14 @@ Docket1::Application.routes.draw do
   resources :inventors
 
   resources :countrycodes
-
-
   resources :user_reminders
-
   resources :reminders
-
   resources :entities
   resources :patentcases
   resources :priorities
   resources :entities
   resources :roles
   resources :movies
-
   resources :admin
   get "users/new"
   get "static_pages/home"
@@ -75,11 +70,7 @@ Docket1::Application.routes.draw do
 
   root to: 'static_pages#home'
 #  root to: 'movies#index'
-  get "users/new"
-  resources :users
-
-  match '/signup',  to: 'users#new'
-
+ # resources :users
   match '/signup',  :to => 'users#new'
   match '/signin',  :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'
