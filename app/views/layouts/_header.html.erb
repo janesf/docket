@@ -1,21 +1,18 @@
 <header>
   <%= link_to logo, root_path %>
   <p>
-     Hi, <%=current_user  %> 
-	<%= link_to "Sign out", signout_path, :class => "signout_button round" %>
 
 	</p>
 
   <nav class="round">
     <ul>
-      <li><%= link_to "Home", root_path %></li>
       <% if signed_in? %>
-        <li><%= link_to "Profile", current_user %></li>
-        <li><%= link_to "Users", users_path %></li>
-        <li><%= link_to "Settings", edit_user_path(current_user) %></li>
-      <% end %>
-      <li><%= link_to "Help", help_path %></li>
-      <% if signed_in? %>
+
+		Hi, <%=current_user.name  %>
+			<li><%= link_to "Post/Tweet", root_path %></li>
+	        <li><%= link_to "Profile", current_user %></li>
+	        <li><%= link_to "Users", users_path %></li>
+	        <li><%= link_to "Settings", edit_user_path(current_user) %></li>
 		   <ul>
 		      <li><%= link_to "Your Account", current_user %></li>
 		      <li><%= link_to "Reminders", reminders_path %></li>
@@ -24,11 +21,14 @@
 		      <li><%= link_to "Inventors", inventors_path %></li>
 		      <li><%= link_to "Entities", entities_path %></li>
 		   </ul>
-		        <li><%= link_to "Sign out", signout_path %></li>
-      <% else %>
-        <li><%= link_to "Sign in", signin_path %></li>
+			<li><%= link_to "Sign out", signout_path, :class => "signout_button round" %></li>
+     	<% else %>
+
+    		<li><%= link_to "Sign up", signup_path %></li>
+        	<li><%= link_to "Sign in", signin_path %></li>
       <% end %>
-    </ul>
+      <li><%= link_to "Help", help_path %></li>
+   </ul>
   </nav>
 </header>
 

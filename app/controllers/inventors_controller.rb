@@ -33,7 +33,7 @@ class InventorsController < ApplicationController
             @inventors = Inventor.all
          else
             #@inventors = Inventor.find_by_sql ["select distinct ii.* from inventors ii, Inventorships i, usercases u where u.patentcase_id = i.patentcase_id and i.inventor_id = ii.id and u.user_id = (?) order by i.patentcase_id", session[:user_id] ]
-            @inventors = current_user.inventors
+            @inventors = current_user.entity.inventors
          end
       else
         # @inventors = Entity.find(session[:entity]).inventors

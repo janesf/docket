@@ -11,6 +11,6 @@ module ApplicationHelper
   end
   
   def logo
-    image_tag("logo.png", :alt => "IveyLaw.org", :class => "round")
+    image_tag("main_title.png", :alt => "IveyLaw.org", :class => "round")
   end
 end
