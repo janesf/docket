@@ -9,20 +9,38 @@
       <% if signed_in? %>
 
 		Hi, <%=current_user.name  %>
+		<div id="sideBar">
+		<h1>Attorney Docket Management</h1>
+		<ul>
+		<li><%= link_to "Entities", entities_path %></li>
+		<li><%= link_to "Patent Cases", patentcases_path %></li>
+		<li><%= link_to "Inventors", inventors_path %></li>
+		<li><%= link_to "Inventorships", inventorships_path %></li>
+		<li><%= link_to "Action Types", types_path %></li>
+		<li><%= link_to "Actions", actions_path %></li>
+	      <li><%= link_to "Reminders", reminders_path %></li>
+		
+		<li><%= link_to "Rules", rules_path %></li>
+	</ul>
+	<li><%=''%></li>
+	<ul>
 			<li><%= link_to "Post/Tweet", root_path %></li>
 	        <li><%= link_to "Profile", current_user %></li>
 	        <li><%= link_to "Users", users_path %></li>
 	        <li><%= link_to "Settings", edit_user_path(current_user) %></li>
-		   <ul>
+
 		      <li><%= link_to "Your Account", current_user %></li>
-		      <li><%= link_to "Reminders", reminders_path %></li>
-		      <li><%= link_to "Patent Cases", patentcases_path %></li>
-		      <li><%= link_to "Actions", aactions_path %></li>
-		      <li><%= link_to "Inventors", inventors_path %></li>
-		      <li><%= link_to "Entities", entities_path %></li>
-		   </ul>
 			<li><%= link_to "Sign out", signout_path, :class => "signout_button round" %></li>
-     	<% else %>
+
+		   </ul>
+	
+		<li><%=''%></li>
+	
+		
+			<%= render 'layouts/footer' %>
+			
+		</div>
+    	<% else %>
 
     		<li><%= link_to "Sign up", signup_path %></li>
         	<li><%= link_to "Sign in", signin_path %></li>
