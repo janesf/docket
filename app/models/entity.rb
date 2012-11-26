@@ -25,7 +25,7 @@
 
 class Entity < ActiveRecord::Base
   
-  attr_accessible :name, :type, :jurisdiction, :st, :addr2
+  attr_accessible :name, :type, :jurisdiction, :state, :address2, :address1, :entitytype_id, :postalcode, :country, :smallckd
   def self.all_ratings
     %w(G PG PG-13 NC-17 R)
   end  
