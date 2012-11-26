@@ -8,9 +8,10 @@
     <ul>
       <% if signed_in? %>
 
-		Hi, <%=current_user.name  %>
 		<div id="sideBar">
-		<h1>Attorney Docket Management</h1>
+			<h1>Attorney Docket Management</h1>
+			Hi, <%=current_user.name  %>
+			
 		<ul>
 		<li><%= link_to "Entities", entities_path %></li>
 		<li><%= link_to "Patent Cases", patentcases_path %></li>
@@ -39,13 +40,17 @@
 		
 			<%= render 'layouts/footer' %>
 			
-		</div>
+			</div>
     	<% else %>
-
-    		<li><%= link_to "Sign up", signup_path %></li>
-        	<li><%= link_to "Sign in", signin_path %></li>
+		   <div id="sideBar">
+				<h1>Attorney Docket Management</h1>
+				<ul>
+	    			<li><%= link_to "Sign up", signup_path %></li>
+		        	<li><%= link_to "Sign in", signin_path %></li>
+			      	<li><%= link_to "Help", help_path %></li>
+				</ul>
+			</div>
       <% end %>
-      <li><%= link_to "Help", help_path %></li>
    </ul>
   </nav>
 </header>
