@@ -3,10 +3,7 @@
 <%= form_for(@aaction) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <table>
-	<div class="field">
-	  <%= f.label :dtmailing %><br />
-	  <%= f.text_field :dtmailing %>
-	</div>
+
 	
     <tr>
 	<div class="field">
@@ -50,5 +47,8 @@
     </tr>
   </table>
 <% end %>
-
-<%= link_to 'Show All Actions', aactions_path %>
+<%if @case%>
+	<%= link_to 'Show All Actions', patentcase_aactions_path(@patcase) %>
+<%else%>
+	<%= link_to 'Show All Actions', aactions_path %>
+<%end%>

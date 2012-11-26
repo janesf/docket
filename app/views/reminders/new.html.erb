@@ -15,8 +15,10 @@ New Reminder
     <%= f.date_select "due_date"%>
   </div>
   <div>
-    <%= f.label :case_id %>:
-    <%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
+    <%= f.label :patentcase_id %>:
+	<%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
+			
+
   </div>
   <div>
     <%= f.label :note %>:
@@ -47,7 +49,7 @@ New Reminder
     <%= f.collection_select( :dismissed_by, User.find(:all), :id, :name, {:prompt => true}) %>
   </div>
   <div>
-    <%= f.submit 'Update' %>
+    <%= f.submit 'Create' %>
   </div>
 <% end %>
 </fieldset>

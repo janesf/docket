@@ -24,9 +24,10 @@
    <div>
       <%= f.label :patentcase_id %>:
       <% if @reminder.aaction_id.nil? then %>
-         <%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
+         	<%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
       <% else %>
          <%= h attorney_docket %>
+			<%= f.collection_select(:patentcase_id, Patentcase.find(:all), :id, :attorneydocket, {:prompt => true}) %>
       <% end %>
    </div>
    <div>

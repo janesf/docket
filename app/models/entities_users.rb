@@ -7,4 +7,5 @@
 #
 
 class EntitiesUsers < ActiveRecord::Base
+  
 end

@@ -1,30 +1,40 @@
 <h1>Actions</h1>
+
 <table border="1">
   <tr>
     <th>Patentcase</th>
     <th>Type</th>
     <th>Date of mailing</th>
+	    <th>Notes</th>
   </tr>
-<% @aactions.each do |aaction| %>
-  <tr>    
+	<% @aactions.each do |aaction| %>
+   
     <td><%=link_to Patentcase.find(aaction.patentcase_id).attorneydocket,Patentcase.find(aaction.patentcase_id) %></td>
     <td><%= link_to Type.find(aaction.type_id).descrp, Type.find(aaction.type_id) %></td>
-    <td>(<%=link_to aaction.dtmailing, aaction %>)</td>
-    <% if aaction.notes == '' or aaction.notes == nil then
-      notes_row = ''
-      td_links = '<td>'
-    else
-      notes_row = '<tr><td colspan="3"><small><small><ul><li>' + h(aaction.notes) + '</li></ul></small></small></td></tr>'
-      td_links = '<td rowspan="2">'
-    end %>
-    <%= td_links %>
-      <%= link_to 'Show', aaction %>
-      <%= link_to 'Edit', edit_aaction_path(aaction) %>
+
+    <td><%=link_to aaction.dtmailing, aaction %></td>
+
+<td>
+	<%=aaction.notes%>
+	</td>
+    <td>
+	<%if @patcase%>
+      <%= link_to 'Show', patentcase_aaction_path(@patcase,aaction) %>
+      <%= link_to 'Edit', edit_patentcase_aaction_path(@patcase, aaction) %>
+	<%else%>
+		<%= link_to 'Show', aaction %>
+	    <%= link_to 'Edit', edit_aaction_path(aaction) %>   
+	<%end%>
       <%= link_to 'Destroy', aaction, :confirm => 'Are you sure?', :method => :delete %>
     </td>
-    <%= notes_row %>
+ 
   </tr>
 <% end %>
 </table>
+Total for this Patentcase: <%= @aactions.size.to_s%> actions.
 <hr />
-<%= link_to 'New action', new_aaction_path %>
+<%if @patcase%>
+	<%= link_to 'New action', new_patentcase_aaction_path(@patcase) %>
+<%else%>
+	<%= link_to 'New action', new_aaction_path(@patcase) %>
+<%end%>

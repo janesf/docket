@@ -28,7 +28,6 @@ class AactionsController < ApplicationController
    # GET /aactions
    # GET /aactions.xml
    def index
-
      
       if session[:patentcase].nil? then
          @aactions = Aaction.find_by_sql ["select distinct a.* from aactions a, patentcases p, usercases u where u.patentcase_id = p.id and a.patentcase_id = p.id and u.user_id = (?) order by a.dtmailing", session[:user_id] ] 
@@ -36,11 +35,19 @@ class AactionsController < ApplicationController
          @aactions = Aaction.find_by_sql ["select distinct a.* from aactions a, patentcases p, usercases u where u.patentcase_id = p.id and a.patentcase_id = p.id and p.id = (?) and u.user_id = (?) order by a.dtmailing", session[:patentcase], session[:user_id] ] 
       end
       if params[:patentcase_id]
-        @patcase = Patentcase.find(params[:patentcase_id])
-        @actions = @patcase.aactions
-      else
-        @actions = Aaction.all
-      end
+          @patcase = Patentcase.find(params[:patentcase_id])
+          @aactions = @patcase.aactions
+       #   @actions = Aaction.all
+        else
+          if session[:patentcase]
+            @patcase = Patentcase.find(session[:patentcase])
+            @aactions = @patcase.aactions
+          else
+            @aactions = Aaction.all
+          end
+        end
+        
+        session[:patentcase]
      # session[:action] = nil
       respond_to do |format|
          format.html # index.html.erb
@@ -51,7 +58,14 @@ class AactionsController < ApplicationController
   # GET /aactions/1
   # GET /aactions/1.xml
   def show
+ 
     @aaction = Aaction.find(params[:id])
+    @case = Patentcase.find(params[:patentcase_id])
+     if not @case
+       @case = Patentcase.find(session[:patentcase])
+     else
+       @case = Patentcase.find(@aaction.patentcase_id)
+     end
     session[:action] = params[:id]
 
     respond_to do |format|
@@ -63,7 +77,16 @@ class AactionsController < ApplicationController
   # GET /aactions/new
   # GET /aactions/new.xml
   def new
-    @aaction = Aaction.new
+    
+    if session[:patentcase]
+      @case = Patentcase.find(session[:patentcase])
+      
+    end
+    if params[:patentcase_id]
+      @case = Patentcase.find(params[:patentcase_id])
+    end
+    
+    @aaction ||= @case.aactions.new
     session[:action] = @aaction.id
 
     respond_to do |format|
@@ -83,17 +106,20 @@ class AactionsController < ApplicationController
    def create
      if params[:patentcase_id]
        @case = Patentcase.find(params[:patentcase_id])
-       @actions = @case.aactions.build(params[:aaction])
+
      else
-       
-     end
-      @aaction = Aaction.new(params[:aaction])
-      session[:action] = @aaction.id
-   
+       if session[:patentcase]
+         @case = Patentcase.find(session[:patentcase])
+        end
+    end
+      @aaction = @case.aactions.build(params[:aaction])
+#      @aaction = Aaction.new(params[:aaction])
+  
       respond_to do |format|
          if @aaction.save then
          
             make_reminders
+            session[:action] = @aaction.id
          
             flash[:notice] = 'Action was successfully created.'
             format.html { redirect_to(patentcase_aactions_path(@case)) }
@@ -110,11 +136,11 @@ class AactionsController < ApplicationController
    def update
       @aaction = Aaction.find(params[:id])
       session[:action] = @aaction.action_id
-   
+      @case = Patentcase.find(params[:aaction][:patentcase_id])
       respond_to do |format|
          if @aaction.update_attributes(params[:aaction])
          flash[:notice] = 'Aaction was successfully updated.'
-         format.html { redirect_to(@aaction) }
+         format.html { redirect_to(patentcase_aactions_path(@case)) }
          format.xml  { head :ok }
          else
          format.html { render :action => "edit" }

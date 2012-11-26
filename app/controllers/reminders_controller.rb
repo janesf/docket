@@ -24,7 +24,7 @@ class RemindersController < ApplicationController
          end
       end
    end
-                  
+                 
    # GET /reminders
    # GET /reminders.xml
    def index
@@ -42,7 +42,13 @@ class RemindersController < ApplicationController
          #@reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.case_id and r.action_id = (?) and u.user_id = (?) order by r.due_date", session[:action], session[:user_id] ]
          @reminders = Aaction.find(session[:action]).reminders
       end
-
+      if params[:patentcase_id]
+          @patcase = Patentcase.find(params[:patentcase_id])
+          @reminders = @patcase.reminders
+       #   @actions = Aaction.all
+        else
+          @reminders = Reminder.all
+        end
       respond_to do |format|
          format.html # index.html.erb
          format.xml  { render :xml => @reminders }
@@ -63,7 +69,17 @@ class RemindersController < ApplicationController
   # GET /reminders/new
   # GET /reminders/new.xml
   def new
-    @reminder = Reminder.new
+    if session[:patentcase]
+      @patentcase = Patentcase.find(session[:patentcase])
+    end
+    if params[:patentcase_id]
+      @patentcase = Patentcase.find(params[:patentcase_id])
+    end
+     # Patentcase.find(session[:patentcase]).attorneydocket
+    
+    
+    @reminder ||= @patentcase.reminders.new
+   # @reminder = Reminder.new
     @reminder.rstatus_id = 1
     
     respond_to do |format|
@@ -74,18 +90,23 @@ class RemindersController < ApplicationController
 
   # GET /reminders/1/edit
   def edit
+    
     @reminder = Reminder.find(params[:id])
   end
 
   # POST /reminders
   # POST /reminders.xml
   def create
-    @reminder = Reminder.new(params[:reminder])
+    if not @patentcase
+      @patentcase = Patentcase.find(params[:reminder][:patentcase_id])
+    end
+    @reminder = @patentcase.reminders.build(params[:reminder])
+    #@reminder = Reminder.new(params[:reminder])
 
     respond_to do |format|
       if @reminder.save
         flash[:notice] = 'Reminder was successfully created.'
-        format.html { redirect_to(@reminder) }
+        format.html { redirect_to(patentcase_reminders_path(@patentcase)) }
         format.xml  { render :xml => @reminder, :status => :created, :location => @reminder }
       else
         format.html { render :action => "new" }
@@ -98,11 +119,17 @@ class RemindersController < ApplicationController
   # PUT /reminders/1.xml
   def update
     @reminder = Reminder.find(params[:id])
-
+    if not @patentcase
+      @patentcase = Patentcase.find(params[:reminder][:patentcase_id])
+    end
+    
     respond_to do |format|
       if @reminder.update_attributes(params[:reminder])
         flash[:notice] = 'Reminder was successfully updated.'
-        format.html { redirect_to(@reminder) }
+       # format.html { redirect_to(@reminder) }
+        
+        format.html { redirect_to(patentcase_reminders_path(@patentcase)) }
+        
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

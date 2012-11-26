@@ -54,7 +54,7 @@ Docket1::Application.routes.draw do
   resources :caseinventors
 
   resources :inventors
-
+  resources :aactions
   resources :countrycodes
   resources :user_reminders
   resources :reminders
@@ -80,7 +80,8 @@ Docket1::Application.routes.draw do
   match '/help',    to: 'static_pages#help'
   match '/about',   to: 'static_pages#about'
   match '/contact', to: 'static_pages#contact'
-
+  match '/reminders', to: 'reminders#index'
+  
   resources :users do
     member do
       get :following, :followers
@@ -88,8 +89,15 @@ Docket1::Application.routes.draw do
   end
   
   resources :entities do
+    resources :patentcases do
+      resources :aactions, :reminders 
+    end
     resources :inventors
   end
+  resources :aactions do
+    resources :reminders
+  end
+  
   resources :patentcases do
     resources :aactions, :reminders 
   end

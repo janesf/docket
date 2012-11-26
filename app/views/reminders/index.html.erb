@@ -82,6 +82,9 @@ Listing Reminders
 </table>
 
 <br />
-
-<%= link_to 'New reminder', new_reminder_path %> ::
+<%if @patcase%>
+	<%= link_to 'New reminder', new_patentcase_reminder_path(@patcase) %> ::
+<%else%>
+	<%= link_to 'New reminder', new_reminder_path %> ::
+<%end%>
 <%= link_to 'Reminders Page', reminders_path %>
