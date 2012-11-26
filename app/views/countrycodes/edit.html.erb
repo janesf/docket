@@ -1,26 +1,26 @@
 <h1>Editing countrycode</h1>
-
+<div class="row">
+  <div class="span6 offset3">
 <%= form_for(@countrycode) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-    <%= render 'shared/error_messages', object: f.object %>
 
-
-  <p>
+    <div class="field">
     <%= f.label :id %><br />
     <%= f.text_field :id %>
-  </p>
-  <p>
+  </div>
+    <div class="field">
     <%= f.label :ccode %><br />
     <%= f.text_field :ccode %>
-  </p>
+  </div>
   <p>
     <%= f.label :cname %><br />
     <%= f.text_field :cname %>
   </p>
   <p>
-    <%= f.submit 'Update' %>
+    <%= f.submit 'Update', class: "btn btn-large btn-primary" %>
   </p>
 <% end %>
 
 <%= link_to 'Show', @countrycode %> |
 <%= link_to 'Back', countrycodes_path %>
+

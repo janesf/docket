@@ -75,7 +75,12 @@ class EntitiesController < ApplicationController
    # GET /entities/1
    # GET /entities/1.xml
    def show
+    #  if params[:patentcase_id]
+    #    @patentcase = Patentcase.find[:patentcase_id]
+    #    @entity = Entity.find[@patentcase.entity_id]
+    # else
       @entity = Entity.find(params[:id])
+    #end
       @type = @entity.entitytype
       session[:entity] = @entity.id
    
@@ -136,12 +141,12 @@ class EntitiesController < ApplicationController
    
       respond_to do |format|
          if @entity.update_attributes(params[:entity])
-         flash[:notice] = 'Entity was successfully updated.'
-         format.html { redirect_to(@entity) }
-         format.xml  { head :ok }
+           flash[:notice] = 'Entity was successfully updated.'
+           format.html { redirect_to(@entity) }
+           format.xml  { head :ok }
          else
-         format.html { render :action => "edit" }
-         format.xml  { render :xml => @entity.errors, :status => :unprocessable_entity }
+           format.html { render :action => "edit" }
+           format.xml  { render :xml => @entity.errors, :status => :unprocessable_entity }
          end
       end
    end

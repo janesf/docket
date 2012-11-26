@@ -10,7 +10,7 @@
 
 
 class Aaction < ActiveRecord::Base
-
+  attr_accessible :dtmailing, :type_id, :notes, :patentcase_id
   attr_accessor :dtmailing
 
   def self.all_ratings
@@ -27,13 +27,13 @@ class Aaction < ActiveRecord::Base
    validate :valid_mailing_date?
    
    def valid_mailing_date?
-      unless Patentcase.find_by_id(patentcase_id).filingdate.nil? then
-         unless Patentcase.find_by_id(patentcase_id).filingdate != '' and 
-            dtmailing >= Patentcase.find_by_id(patentcase_id).filingdate and 
-            dtmailing <= Date.today then
-               errors.add(:dtmailing, 'must not be before the filing date of the application or later than today.')
-         end
-      end
+#      unless Patentcase.find_by_id(patentcase_id).filingdate.nil? then
+         # unless Patentcase.find_by_id(patentcase_id).filingdate != '' and 
+         #      dtmailing >= Patentcase.find_by_id(patentcase_id).filingdate and 
+         #      dtmailing <= Date.today then
+         #         errors.add(:dtmailing, 'must not be before the filing date of the application or later than today.')
+#         end
+      #end
    end
 
    def before_destroy

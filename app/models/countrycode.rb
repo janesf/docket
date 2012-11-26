@@ -10,6 +10,8 @@
 #
 
 class Countrycode < ActiveRecord::Base
+  attr_accessible :cname, :ccode
+  
     validates_uniqueness_of :ccode
 
 end

@@ -29,8 +29,14 @@ class PatentcasesController < ApplicationController
   # GET /patentcases
   # GET /patentcases.xml
   def index
+    if params[:entity_id]
+    @entity = Entity.find(params[:entity_id])
    # @patentcases = Patentcase.find_by_sql( [ "select distinct p.* from patentcases p, usercases u where p.id = u.patentcase_id and user_id =(?) order by attorneydocket asc", current_user.id ] )
-     @patentcases ||= current_user.patentcases
+     #
+     @patentcases = @entity.patentcases
+   else
+      @patentcases ||= current_user.patentcases
+   end
   #  session[:patentcase] = nil
 
     respond_to do |format|
@@ -42,6 +48,10 @@ class PatentcasesController < ApplicationController
   # GET /patentcases/1
   # GET /patentcases/1.xml
   def show
+    if params[:entity_id]
+      @entity = Entity.find(params[:entity_id])
+    end
+  
     @patentcase = Patentcase.find(params[:id])
     session[:patentcase] = params[:id]
 
@@ -54,9 +64,15 @@ class PatentcasesController < ApplicationController
   # GET /patentcases/new
   # GET /patentcases/new.xml
   def new
-    @patentcase = Patentcase.new
+    if params[:entity_id]
+      @entity = Entity.find(params[:entity_id])
+      @patentcase ||= @entity.patentcases.new 
+    else
+      @patentcase = Patentcase.new
+    end
+    
   #  session[:patentcase] = params[:id]
-
+  
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @patentcase }
@@ -71,17 +87,22 @@ class PatentcasesController < ApplicationController
   # POST /patentcases
   # POST /patentcases.xml
   def create
-    @patentcase = Patentcase.new(params[:patentcase])
-
+    if params[:entity_id]
+      @entity = Entity.find(params[:entity_id])
+      @patentcase = @entity.patentcases.build(params[:patentcase])
+    else
+      @patentcase ||= Patentcase.new(params[:patentcase])
+    end
     respond_to do |format|
       if @patentcase.save
         u = Usercase.new
         u.patentcase_id = @patentcase.id
-        u.user_id = session[:user_id]
+        u.user_id = current_user.id
         u.save
         session[:patentcase] = @patentcase.id
         flash[:notice] = 'Patentcase was successfully created.'
-        format.html { redirect_to(@patentcase) }
+        format.html { redirect_to(entity_patentcases_path(@entity)) }
+        #format.html { redirect_to(@patentcase) }
         format.xml  { render :xml => @patentcase, :status => :created, :location => @patentcase }
       else
         format.html { render :action => "new" }

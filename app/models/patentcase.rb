@@ -1,5 +1,6 @@
 class Patentcase < ActiveRecord::Base
   
+   attr_accessible :attorneydocket, :entity_id, :jurisdiction, :title, :applicationnumber, :examiner
    belongs_to :entity
    
    has_many :usercases

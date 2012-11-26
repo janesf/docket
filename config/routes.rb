@@ -1,4 +1,6 @@
 Docket1::Application.routes.draw do
+  resources :clubs
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -42,7 +44,6 @@ Docket1::Application.routes.draw do
 
   resources :rules
 
-  resources :actions
 
   resources :inventorships
 
@@ -84,6 +85,13 @@ Docket1::Application.routes.draw do
     member do
       get :following, :followers
     end
+  end
+  
+  resources :entities do
+    resources :inventors
+  end
+  resources :patentcases do
+    resources :aactions, :reminders 
   end
 
   get "static_pages/home"

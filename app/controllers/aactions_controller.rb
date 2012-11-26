@@ -28,12 +28,20 @@ class AactionsController < ApplicationController
    # GET /aactions
    # GET /aactions.xml
    def index
+
+     
       if session[:patentcase].nil? then
          @aactions = Aaction.find_by_sql ["select distinct a.* from aactions a, patentcases p, usercases u where u.patentcase_id = p.id and a.patentcase_id = p.id and u.user_id = (?) order by a.dtmailing", session[:user_id] ] 
       else
          @aactions = Aaction.find_by_sql ["select distinct a.* from aactions a, patentcases p, usercases u where u.patentcase_id = p.id and a.patentcase_id = p.id and p.id = (?) and u.user_id = (?) order by a.dtmailing", session[:patentcase], session[:user_id] ] 
       end
-      session[:action] = nil
+      if params[:patentcase_id]
+        @patcase = Patentcase.find(params[:patentcase_id])
+        @actions = @patcase.aactions
+      else
+        @actions = Aaction.all
+      end
+     # session[:action] = nil
       respond_to do |format|
          format.html # index.html.erb
          format.xml  { render :xml => @aactions }
@@ -73,6 +81,12 @@ class AactionsController < ApplicationController
    # POST /aactions
    # POST /aactions.xml
    def create
+     if params[:patentcase_id]
+       @case = Patentcase.find(params[:patentcase_id])
+       @actions = @case.aactions.build(params[:aaction])
+     else
+       
+     end
       @aaction = Aaction.new(params[:aaction])
       session[:action] = @aaction.id
    
@@ -82,7 +96,7 @@ class AactionsController < ApplicationController
             make_reminders
          
             flash[:notice] = 'Action was successfully created.'
-            format.html { redirect_to(@aaction) }
+            format.html { redirect_to(patentcase_aactions_path(@case)) }
             format.xml  { render :xml => @aaction, :status => :created, :location => @aaction }
          else
             format.html { render :action => "new" }

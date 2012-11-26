@@ -13,6 +13,8 @@
 #
 
 class Rule < ActiveRecord::Base
+  
+  attr_accessible :tdesc, :reminder, :rmdroffset, :type_id, :applytowatch, :event_id, :refdttype_id, :desc
   def self.all_refdttypes
     %w(CASEFILING ACTIONMAILING PRIORITY)
   end

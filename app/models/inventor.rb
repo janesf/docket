@@ -15,6 +15,7 @@
 #
 
 class Inventor < ActiveRecord::Base
+  attr_accessible :name, :entity_id, :address, :state, :country, :citizenship, :patentcase_id, :first, :last, :middle, :mastreet1, :mastreet2, :mastate, :macountry, :email
   belongs_to :entity
   has_many :inventorships 
   has_many :patentcases, :through => :inventorships, :uniq => true
