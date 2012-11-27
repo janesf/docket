@@ -29,26 +29,33 @@ class RemindersController < ApplicationController
    # GET /reminders.xml
    def index
       # all reminders for the current user
-      if session[:patentcase].nil? and session[:action].nil? then
-         @reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.patentcase_id and u.user_id = (?) order by r.due_date", session[:user_id] ]
+      @reminders = Aaction.find(session[:action]).reminders
+      
+      if params[:patentcase_id]
+        @patcase = Patentcase.find(params[:patentcase_id])
+        @reminders = @patcase.reminders
          #@reminders = current_user.patentcases.collect { |pcase| pcase.reminders }
          #@reminders = current_user.patentcases.reminders
       # all reminders for the current patentcase
+      elsif session[:patentcase] then
+      @patcase = Patentcase.find(session[:patentcase])
+      @reminders = @patcase.reminders
       elsif session[:action].nil? then
          #@reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.case_id and p.id = (?) and u.user_id = (?) order by r.due_date", session[:patentcase], session[:user_id] ]
          @reminders = Patentcase.find(session[:patentcase]).reminders
       # all reminders for the current aaction
-      else
-         #@reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.case_id and r.action_id = (?) and u.user_id = (?) order by r.due_date", session[:action], session[:user_id] ]
-         @reminders = Aaction.find(session[:action]).reminders
-      end
-      if params[:patentcase_id]
-          @patcase = Patentcase.find(params[:patentcase_id])
-          @reminders = @patcase.reminders
+      elsif session[:patentcase].nil? and session[:action].nil? then
+        @reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.patentcase_id and u.user_id = (?) order by r.due_date", session[:user_id] ]
+        
+
        #   @actions = Aaction.all
-        else
-          @reminders = Reminder.all
-        end
+      elsif session[:action] and @reminders 
+ 
+         #@reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.case_id and r.action_id = (?) and u.user_id = (?) order by r.due_date", session[:action], session[:user_id] ]        
+      else
+          @reminders = Reminder.all      
+      end
+      
       respond_to do |format|
          format.html # index.html.erb
          format.xml  { render :xml => @reminders }
