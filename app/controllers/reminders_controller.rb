@@ -29,8 +29,15 @@ class RemindersController < ApplicationController
    # GET /reminders.xml
    def index
       # all reminders for the current user
-
-      
+       if session[:patentcase] then
+        @patcase = Patentcase.find(session[:patentcase])  
+        @entity = @patcase.entity
+        #@reminders = @patcase.reminders
+        @reminders = @patcase.reminders
+      # all reminders for the current aaction
+      elsif session[:patentcase].nil? and session[:action].nil? then
+        @reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.patentcase_id and u.user_id = (?) order by r.due_date", session[:user_id] ]
+      end
       if session[:action]
         @reminders = Aaction.find(session[:action]).reminders
       end
@@ -38,10 +45,12 @@ class RemindersController < ApplicationController
         @action = Aaction.find(params[:aaction_id])
         @patcase = Patentcase.find(@action.patentcase_id)
         @entity = @patcase.entity
+        @reminders = @action.reminders
       end
       
       if params[:aaction_id]
         @action = Aaction.find(params[:aaction_id])
+        @reminders = @action.reminders
         @patcase = Patentcase.find(@action.patentcase_id)
         @entity = @patcase.entity
         
@@ -57,16 +66,6 @@ class RemindersController < ApplicationController
       else
           @reminders = Reminder.all      
       end
-       if session[:patentcase] then
-        @patcase = Patentcase.find(session[:patentcase])  
-        @entity = @patcase.entity
-        #@reminders = @patcase.reminders
-        @reminders = @patcase.reminders
-      # all reminders for the current aaction
-      elsif session[:patentcase].nil? and session[:action].nil? then
-        @reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.patentcase_id and u.user_id = (?) order by r.due_date", session[:user_id] ]
-      end
-        
         
 
       respond_to do |format|
@@ -125,18 +124,25 @@ class RemindersController < ApplicationController
   # GET /reminders/new
   # GET /reminders/new.xml
   def new
+   # Patentcase.find(session[:patentcase]).attorneydocket
+    
     if session[:patentcase]
       @patentcase = Patentcase.find(session[:patentcase])
+      @entity = @patentcase.entity
     end
-    if params[:patentcase_id]
+    if params[:aaction_id]
+      @action = Aaction.find(params[:aaction_id])
+      @patentcase = @action.patentcase
+      @entity = @patentcase.entity
+    elsif params[:patentcase_id]
       @patentcase = Patentcase.find(params[:patentcase_id])
+      @entity = @patentcase.entity      
     end
-     # Patentcase.find(session[:patentcase]).attorneydocket
-    
     
     @reminder ||= @patentcase.reminders.new
-   # @reminder = Reminder.new
     @reminder.rstatus_id = 1
+    @reminder.aaction_id = params[:aaction_id]
+    
     
     respond_to do |format|
       format.html # new.html.erb
@@ -189,10 +195,13 @@ class RemindersController < ApplicationController
   def create
     if not @patentcase
       @patentcase = Patentcase.find(params[:reminder][:patentcase_id])
-    end
+    end   
+   
     @reminder = @patentcase.reminders.build(params[:reminder])
+    @reminder.aaction_id = params[:aaction_id]
+ #   @action = Aaction.find(params[:aaction_id])
+    
     #@reminder = Reminder.new(params[:reminder])
-
     respond_to do |format|
       if @reminder.save
         flash[:notice] = 'Reminder was successfully created.'

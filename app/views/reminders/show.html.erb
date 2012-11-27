@@ -44,12 +44,15 @@ View Reminder
    <% end %>
 </table>
 
-<%if @patcase and @entity and @action%>
+<%if @patcase and @action%>
 	<%= link_to 'Edit', edit_entity_patentcase_aaction_reminder_path(@entity,@patcase, @action,@reminder) %> ::
 	<%= link_to 'List', entity_patentcase_aaction_reminders_path(@entity,@patcase, @action) %> ::
-<%elsif @patcase and @entity%>
+<%elsif @patcase%>
 	<%= link_to 'Edit', edit_entity_patentcase_reminder_path(@entity,@patcase,@reminder) %> ::
 	<%= link_to 'List', entity_patentcase_reminders_path(@entity,@patcase) %> ::
+<%elsif @action%>
+	<%= link_to 'Edit', edit_entity_aaction_reminder_path(@action,@reminder) %> ::
+	<%= link_to 'List', entity_aaction_reminders_path(@aaction) %> ::
 <%else%>
 	<%= link_to 'Edit', edit_reminder_path(@reminder) %> ::
 	<%= link_to 'List', reminders_path%> ::
