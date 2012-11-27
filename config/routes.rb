@@ -100,10 +100,14 @@ Docket1::Application.routes.draw do
     resources :reminders
   end
   
-  resources :patentcases do
+  resources :entities do
+    resources :patentcases do
         resources :reminders
+    end
   end
-  
+  resources :patentcases do
+      resources :reminders
+  end
   resources :patentcases do
     resources :aactions do 
         resources :reminders

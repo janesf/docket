@@ -37,14 +37,17 @@ class RemindersController < ApplicationController
       if params[:aaction_id]
         @action = Aaction.find(params[:aaction_id])
         @patcase = Patentcase.find(@action.patentcase_id)
+        @entity = @patcase.entity
       end
       
       if params[:aaction_id]
         @action = Aaction.find(params[:aaction_id])
         @patcase = Patentcase.find(@action.patentcase_id)
+        @entity = @patcase.entity
         
       elsif params[:patentcase_id]
         @patcase = Patentcase.find(params[:patentcase_id])
+        @entity = @patcase.entity
         #@reminders = @patcase.reminders
         @reminders = @patcase.reminders
          #@reminders = current_user.patentcases.collect { |pcase| pcase.reminders }
@@ -56,6 +59,7 @@ class RemindersController < ApplicationController
       end
        if session[:patentcase] then
         @patcase = Patentcase.find(session[:patentcase])  
+        @entity = @patcase.entity
         #@reminders = @patcase.reminders
         @reminders = @patcase.reminders
       # all reminders for the current aaction
@@ -80,14 +84,16 @@ class RemindersController < ApplicationController
     if params[:aaction_id]
       @action = Aaction.find(params[:aaction_id])
       @patcase = Patentcase.find(@action.patentcase_id)
+      @entity = @patcase.entity
     end
     
     if params[:aaction_id]
       @action = Aaction.find(params[:aaction_id])
       @patcase = Patentcase.find(@action.patentcase_id)
-      
+       @entity = @patcase.entity
     elsif params[:patentcase_id]
       @patcase = Patentcase.find(params[:patentcase_id])
+       @entity = @patcase.entity
       #@reminders = @patcase.reminders
       @reminders = @patcase.reminders
        #@reminders = current_user.patentcases.collect { |pcase| pcase.reminders }
@@ -99,6 +105,7 @@ class RemindersController < ApplicationController
     end
      if session[:patentcase] then
       @patcase = Patentcase.find(session[:patentcase])  
+       @entity = @patcase.entity
       #@reminders = @patcase.reminders
       @reminders = @patcase.reminders
     # all reminders for the current aaction

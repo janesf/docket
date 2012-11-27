@@ -44,12 +44,15 @@ View Reminder
    <% end %>
 </table>
 
+<%if @patcase and @entity and @action%>
+	<%= link_to 'Edit', edit_entity_patentcase_aaction_reminder_path(@entity,@patcase, @action,@reminder) %> ::
+	<%= link_to 'List', entity_patentcase_aaction_reminders_path(@entity,@patcase, @action) %> ::
+<%elsif @patcase and @entity%>
+	<%= link_to 'Edit', edit_entity_patentcase_reminder_path(@entity,@patcase,@reminder) %> ::
+	<%= link_to 'List', entity_patentcase_reminders_path(@entity,@patcase) %> ::
+<%else%>
+	<%= link_to 'Edit', edit_reminder_path(@reminder) %> ::
+	<%= link_to 'List', reminders_path%> ::
 
-<%if @patcase and @action%>
-	<%= link_to 'Edit', edit_patentcase_aaction_reminder_path(@patcase, @action,@reminder) %> ::
-	<%= link_to 'List', patentcase_aaction_reminders_path(@patcase, @action) %> ::
-<%elsif @patcase%>
-	<%= link_to 'Edit', edit_patentcase_reminder_path(@patcase,@reminder) %> ::
-	<%= link_to 'List', patentcase_reminders_path(@patcase) %> ::
 <%end%>
 <%= link_to 'Destroy', @reminder, :confirm => 'Are you sure?', :method => :delete %> 

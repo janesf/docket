@@ -43,9 +43,9 @@ Listing Reminders
          <td>
       <% end %>
 		<%if @patcase and @action%>
-         	<%= link_to 'Show', patentcase_aaction_reminder_path(@patcase, @action, reminder) %>
+         	<%= link_to 'Show', entity_patentcase_aaction_reminder_path(@entity,@patcase, @action, reminder) %>
 		<%elsif @patcase%>
-			<%= link_to 'Show', patentcase_reminder_path(@patcase, reminder) %>
+			<%= link_to 'Show', entity_patentcase_reminder_path(@entity,@patcase, reminder) %>
 		<%else%>
 			<%= link_to 'Show', reminder %>
 		<%end%>
@@ -91,9 +91,9 @@ Listing Reminders
 
 <br />
 <%if @patcase and @action%>
-	<%= link_to 'New reminder', new_patentcase_aaction_reminder_path(@patcase, @action) %> ::
+	<%= link_to 'New reminder', new_entity_patentcase_aaction_reminder_path(@entity,@patcase, @action) %> ::
 <%elsif @patcase%>
-	<%= link_to 'New reminder', new_patentcase_reminder_path(@patcase) %> ::
+	<%= link_to 'New reminder', new_entity_patentcase_reminder_path(@entity,@patcase) %> ::
 <%else%>
 	<%= link_to 'New reminder', new_reminder_path %> ::
 <%end%>

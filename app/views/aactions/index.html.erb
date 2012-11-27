@@ -19,8 +19,8 @@
 	</td>
     <td>
 	<%if @patcase%>
-      <%= link_to 'Show', patentcase_aaction_path(@patcase,aaction) %>
-      <%= link_to 'Edit', edit_patentcase_aaction_path(@patcase, aaction) %>
+      <%= link_to 'Show', entity_patentcase_aaction_path(@entity,@patcase,aaction) %>
+      <%= link_to 'Edit', edit_entity_patentcase_aaction_path(@entity,@patcase, aaction) %>
 	<%else%>
 		<%= link_to 'Show', aaction %>
 	    <%= link_to 'Edit', edit_aaction_path(aaction) %>   

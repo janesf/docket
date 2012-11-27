@@ -37,11 +37,13 @@ class AactionsController < ApplicationController
       if params[:patentcase_id]
           @patcase = Patentcase.find(params[:patentcase_id])
           @aactions = @patcase.aactions
+          @entity = @patcase.entity
        #   @actions = Aaction.all
         else
           if session[:patentcase]
             @patcase = Patentcase.find(session[:patentcase])
             @aactions = @patcase.aactions
+            @entity = @patcase.entity
           else
             @aactions = Aaction.all
           end
@@ -59,13 +61,18 @@ class AactionsController < ApplicationController
   # GET /aactions/1.xml
   def show
  
+ 
+ 
     @aaction = Aaction.find(params[:id])
     
     @case = Patentcase.find(@aaction.patentcase_id)
+    @entity = @case.entity
      if not @case
        @case = Patentcase.find(session[:patentcase])
+        @entity = @case.entity
      else
        @case = Patentcase.find(@aaction.patentcase_id)
+        @entity = @case.entity
      end
     session[:action] = params[:id]
 
@@ -81,10 +88,12 @@ class AactionsController < ApplicationController
     
     if session[:patentcase]
       @case = Patentcase.find(session[:patentcase])
+       @entity = @case.entity
       
     end
     if params[:patentcase_id]
       @case = Patentcase.find(params[:patentcase_id])
+       @entity = @case.entity
     end
     
     @aaction ||= @case.aactions.new

@@ -46,8 +46,8 @@
 <hr />  
 
 <%if @case%>
-	<%= link_to 'Edit this action', edit_patentcase_aaction_path(@case,@aaction) %> ::
-	<%= link_to 'List actions', patentcase_aactions_path(@case) %> ::
+	<%= link_to 'Edit this action', edit_entity_patentcase_aaction_path(@entity,@case,@aaction) %> ::
+	<%= link_to 'List actions', entity_patentcase_aactions_path(@entity,@case) %> ::
 <%else%>
 	<%= link_to 'Edit this action', edit_aaction_path(@aaction) %> ::
 	<%= link_to 'List actions', aactions_path %> ::
