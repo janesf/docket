@@ -46,7 +46,9 @@
          <% if patentcase.most_recent_aaction.nil? then %>
             None.
          <% else %>
-            <%= link_to patentcase.most_recent_aaction.type.descrp, patentcase.most_recent_aaction %>
+
+            <%= link_to patentcase.most_recent_aaction.type.descrp, entity_patentcase_aaction_path(Entity.find(patentcase.entity_id),patentcase,patentcase.most_recent_aaction) %>
+
             ( <%= h patentcase.most_recent_aaction.dtmailing %> ): 
             <%= h patentcase.most_recent_aaction.notes %>.
          <% end %>
