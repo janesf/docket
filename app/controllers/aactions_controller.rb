@@ -60,7 +60,8 @@ class AactionsController < ApplicationController
   def show
  
     @aaction = Aaction.find(params[:id])
-    @case = Patentcase.find(params[:patentcase_id])
+    
+    @case = Patentcase.find(@aaction.patentcase_id)
      if not @case
        @case = Patentcase.find(session[:patentcase])
      else

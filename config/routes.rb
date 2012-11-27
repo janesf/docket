@@ -90,7 +90,9 @@ Docket1::Application.routes.draw do
   
   resources :entities do
     resources :patentcases do
-      resources :aactions, :reminders 
+      resources :aactions do
+        resources :reminders
+      end  
     end
     resources :inventors
   end
@@ -99,7 +101,9 @@ Docket1::Application.routes.draw do
   end
   
   resources :patentcases do
-    resources :aactions, :reminders 
+    resources :aactions do 
+        resources :reminders
+      end
   end
 
   get "static_pages/home"

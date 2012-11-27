@@ -15,7 +15,7 @@ class Patentcase < ActiveRecord::Base
    
    has_many :aactions
    has_one :most_recent_aaction, :class_name => 'Aaction', :order => 'dtmailing DESC'
-   has_many :reminders
+   has_many :reminders 
    
    validates_associated :inventors, :entity
    validates_presence_of :attorneydocket, :entity_id, :jurisdiction, :responsible
