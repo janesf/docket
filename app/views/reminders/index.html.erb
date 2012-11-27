@@ -1,7 +1,7 @@
 <h1>
 Listing Reminders
 <% unless session[:patentcase].nil? then %>
-   for <%=link_to Patentcase.find(session[:patentcase]).attorneydocket, Patentcase.find(session[:patentcase]) %>
+   for <%=link_to Patentcase.find(session[:patentcase]).attorneydocket, entity_patentcase_path(@entity,Patentcase.find(session[:patentcase])) %>
    </a>
    <% unless @action.nil? then %>
 

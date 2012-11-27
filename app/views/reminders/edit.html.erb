@@ -68,6 +68,9 @@
 <%if @patcase and @action%>
 	<%= link_to 'View this reminder', patentcase_aaction_reminder_path(@patcase, @action,@reminder) %> ::
 	<%= link_to 'List', patentcase_aaction_reminders_path(@patcase, @action) %> ::
+<%elsif @patcase%>
+	<%= link_to 'View this reminder', entity_patentcase_reminder_path(@entity,@patcase, @reminder) %> ::
+	<%= link_to 'List', entity_patentcase_reminders_path(@entity,@patcase) %> ::
 <%else%>
 	<%= link_to 'Edit', edit_reminder_path(@reminder) %> ::
 	<%= link_to 'List', reminders_path %> ::

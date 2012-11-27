@@ -53,6 +53,7 @@ class PatentcasesController < ApplicationController
     end
   
     @patentcase = Patentcase.find(params[:id])
+    @entity = @patentcase.entity
     session[:patentcase] = params[:id]
 
     respond_to do |format|

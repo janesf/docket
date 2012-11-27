@@ -146,6 +146,40 @@ class RemindersController < ApplicationController
 
   # GET /reminders/1/edit
   def edit
+    if session[:action]
+      @reminders = Aaction.find(session[:action]).reminders
+    end
+    if params[:aaction_id]
+      @action = Aaction.find(params[:aaction_id])
+      @patcase = Patentcase.find(@action.patentcase_id)
+      @entity = @patcase.entity
+    end
+    
+    if params[:aaction_id]
+      @action = Aaction.find(params[:aaction_id])
+      @patcase = Patentcase.find(@action.patentcase_id)
+       @entity = @patcase.entity
+    elsif params[:patentcase_id]
+      @patcase = Patentcase.find(params[:patentcase_id])
+       @entity = @patcase.entity
+      #@reminders = @patcase.reminders
+      @reminders = @patcase.reminders
+       #@reminders = current_user.patentcases.collect { |pcase| pcase.reminders }
+       #@reminders = current_user.patentcases.reminders
+    # all reminders for the current patentcase
+    
+    else
+        @reminders = Reminder.all      
+    end
+     if session[:patentcase] then
+      @patcase = Patentcase.find(session[:patentcase])  
+       @entity = @patcase.entity
+      #@reminders = @patcase.reminders
+      @reminders = @patcase.reminders
+    # all reminders for the current aaction
+    elsif session[:patentcase].nil? and session[:action].nil? then
+      @reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.patentcase_id and u.user_id = (?) order by r.due_date", session[:user_id] ]
+    end
     
     @reminder = Reminder.find(params[:id])
   end

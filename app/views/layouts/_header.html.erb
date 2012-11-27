@@ -3,6 +3,17 @@
   <p>
 
 	</p>
+<%if params[:entity_id]%>
+	<%@entity = Entity.find(params[:entity_id])%>
+<%end%>
+<%if params[:patentcase_id]%>
+	<%@patentcase = Patentcase.find(params[:patentcase_id])%>
+	<%@entity = @patentcase.entity%>
+<%end%>
+
+<%if params[:aaction_id]%>
+	<%@action = Aaction.find(params[:aaction_id])%>
+<%end%>
 
   <nav class="round">
     <ul>
@@ -14,12 +25,30 @@
 			
 		<ul>
 		<li><%= link_to "Entities", entities_path %></li>
-		<li><%= link_to "Patent Cases", patentcases_path %></li>
-		<li><%= link_to "Inventors", inventors_path %></li>
+		<%if @entity%>
+			<li><%= link_to "Patent Cases", entity_patentcases_path(@entity) %></li>
+			<li><%= link_to "Inventors", entity_inventors_path(@entity) %></li>
+		<%else%>
+			<li><%= link_to "Patent Cases", patentcases_path %></li>
+			<li><%= link_to "Inventors", inventors_path %></li>
+		<%end%>
+		
 		<li><%= link_to "Inventorships", inventorships_path %></li>
 		<li><%= link_to "Action Types", types_path %></li>
-		<li><%= link_to "Actions", aactions_path %></li>
-	      <li><%= link_to "Reminders", reminders_path %></li>
+		
+		<%if @patentcase%>
+			<li><%= link_to "Actions", entity_patentcase_aactions_path(@entity,@patentcase) %></li>
+			
+			<%if @action%>
+	      		<li><%= link_to "Reminders", entity_patentcase_aaction_reminders_path(@entity,@patentcase,@action) %></li>
+			<%else%>
+				<li><%= link_to "Reminders", entity_patentcase_reminders_path(@entity,@patentcase) %></li>
+			<%end%>
+			
+		<%else%>
+			<li><%= link_to "Actions", aactions_path %></li>
+			<li><%= link_to "Reminders", reminders_path %></li>
+		<%end%>
 		
 		<li><%= link_to "Rules", rules_path %></li>
 	</ul>

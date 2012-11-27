@@ -4,13 +4,13 @@
 <p>
  <%= link_to Entity.find(@patentcase.entity_id).name , @patentcase.entity %><br/>
  <%=h Countrycode.find(@patentcase.jurisdiction).ccode %>&nbsp;<%=h @patentcase.applicationnumber %>
-(<%=h @patentcase.filingdate %>) (<%= link_to 'edit', edit_patentcase_path(@patentcase) %>)<br/>
+(<%=h @patentcase.filingdate %>) (<%= link_to 'edit', edit_entity_patentcase_path(@entity,@patentcase) %>)<br/>
 For: <%=h @patentcase.title %><br/>
 by 
 
 <% Inventorship.find_all_by_patentcase_id(@patentcase.id).each do |b| %>
       <% Inventor.find_all_by_id(b.inventor_id).each do |a| %>
-              <%= link_to a.first+" "+a.middle+" "+a.last, Inventor.find(a.id) %>, 
+              <%= link_to a.first+" "+a.middle+" "+a.last, entity_inventor_path(@entity,Inventor.find(a.id)) %>, 
        <% end %>
 <% end %>
 
@@ -158,7 +158,7 @@ by
       Action(s):
     </th>
     <th>
-      <%= link_to 'new action', new_aaction_path %> :: <%= link_to 'manage actions', aactions_path %>
+      <%= link_to 'new action', new_patentcase_aaction_path(@patentcase) %> :: <%= link_to 'manage actions', patentcase_aactions_path(@patentcase) %>
     </th>
   </tr>
 
@@ -166,7 +166,7 @@ by
    <tr>
       <td><%= h aaction.dtmailing %></td>
       <td>
-         <%= link_to aaction.type.descrp, edit_aaction_path(aaction) %>
+         <%= link_to aaction.type.descrp, edit_patentcase_aaction_path(@patentcase,aaction) %>
       </td>
       <td><%= h aaction.notes %></td>
    </tr>
@@ -175,14 +175,14 @@ by
          <table cellpadding="5">
          <tr>
             <th>To Do:</th>
-            <th><%= link_to '(manage reminders)', reminders_path %></th>
+            <th><%= link_to '(manage reminders)', patentcase_aaction_reminders_path(@patentcase,aaction) %></th>
          </tr>
       <% aaction.reminders.each do |reminder| %>
          <tr>
             <td>
                <%= h reminder.due_date %>
             </td>
-            <td><%= link_to reminder.note, reminder %></td>
+            <td><%= link_to reminder.note, patentcase_aaction_reminder_path(@patentcase,aaction,reminder) %></td>
          </tr>
       <% end %>
          </table>
@@ -191,4 +191,4 @@ by
 <% end %>
 </table>
 <hr/>
-<%= link_to 'Back to All Cases', patentcases_path %>
+<%= link_to 'Back to All Cases', entity_patentcases_path(@entity) %>
