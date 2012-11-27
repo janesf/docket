@@ -30,7 +30,7 @@ class PatentcasesController < ApplicationController
   # GET /patentcases.xml
   def index
     if params[:entity_id]
-    @entity = Entity.find(params[:entity_id])
+      @entity = Entity.find(params[:entity_id])
    # @patentcases = Patentcase.find_by_sql( [ "select distinct p.* from patentcases p, usercases u where p.id = u.patentcase_id and user_id =(?) order by attorneydocket asc", current_user.id ] )
      #
      @patentcases = @entity.patentcases
