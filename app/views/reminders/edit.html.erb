@@ -44,7 +44,7 @@
    </div>
    <div>
       <%= f.label :completing_action %>:
-      <%= f.collection_select( :completing_action, Aaction.find_all_by_patentcase_id(:case_id), :id, :title, {:prompt => true}) %>
+      <%= f.collection_select( :completing_action, Aaction.find_all_by_patentcase_id(:patentcase_id), :id, :title, {:prompt => true}) %>
    </div>
    <div>
    <div>
