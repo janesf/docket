@@ -14,7 +14,7 @@ View Reminder
    <td><%=h @reminder.note %></td></tr>
 <%if @reminder.aaction_id%>
 	<tr><td align="right"><b>For Action:</b></td>
-   		<td><%=link_to Aaction.find(@reminder.aaction_id).type.descrp,patentcase_aaction_path(@patcase,Aaction.find(@reminder.aaction_id)) %></td></tr>
+   		<td><%=link_to Aaction.find(@reminder.aaction_id).type.descrp,entity_patentcase_aaction_path(@entity,@patcase,Aaction.find(@reminder.aaction_id)) %></td></tr>
 <%end%>
    <% if @reminder.completed == true or @reminder.dismissed == true then %>
       <tr>

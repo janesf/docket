@@ -105,7 +105,7 @@
 </table>
 <% end %>
 
-<%= link_to 'View this Inventor', @inventor %> ::
+<%= link_to 'View this Inventor', entity_inventor_path(@entity,@inventor) %> ::
 <%= link_to 'Delete this Inventor', @inventor, :confirm => 'Are you sure?', :method => :delete %> ::
-<%= link_to 'List Inventors', inventors_path %> ::
+<%= link_to 'List Inventors', entity_inventors_path(@entity) %> ::
 <%= link_to 'Back', :back %>
