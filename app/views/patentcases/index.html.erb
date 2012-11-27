@@ -1,12 +1,12 @@
-
-<%if @entity%>
-	
-	<h1>
-		<%=@entity.name %>
-<%end%>
-
-- Patent Cases </h1> 
-<%= link_to( 'Create New Patent Case', :controller => "patentcases", :action => "new") %>
+<h1>
+	<%if @entity%>
+			<%=@entity.name %> 
+	<%end%>
+<h1>
+	- Patent Cases 
+	</h1><h1>
+	<%= link_to( 'Create New Patent Case', :controller => "patentcases", :action => "new") %></h1>
+</h1> 
 <table border="1">
    <tr class="tr1">
       <th>Attorney Docket</th>
