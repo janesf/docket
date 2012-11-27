@@ -60,16 +60,13 @@ class AactionsController < ApplicationController
   # GET /aactions/1
   # GET /aactions/1.xml
   def show
- 
- 
- 
     @aaction = Aaction.find(params[:id])
-    
     @case = Patentcase.find(@aaction.patentcase_id)
     @entity = @case.entity
+    
      if not @case
        @case = Patentcase.find(session[:patentcase])
-        @entity = @case.entity
+      @entity = @case.entity
      else
        @case = Patentcase.find(@aaction.patentcase_id)
         @entity = @case.entity

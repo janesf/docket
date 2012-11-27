@@ -31,15 +31,22 @@ class InventorsController < ApplicationController
       if session[:entity].nil? then
          if current_user.role.system_readwrite == true then
             @inventors = Inventor.all
+            
          else
             #@inventors = Inventor.find_by_sql ["select distinct ii.* from inventors ii, Inventorships i, usercases u where u.patentcase_id = i.patentcase_id and i.inventor_id = ii.id and u.user_id = (?) order by i.patentcase_id", session[:user_id] ]
             @inventors = current_user.entity.inventors
+            
          end
       else
         # @inventors = Entity.find(session[:entity]).inventors
+
         @inventors = current_user.entity.inventors
+       if params[:entity_id] 
+         @entity = Entity.find(params[:entity_id])
+         @inventors = @entity.inventors
+       end
       end
-   
+    
       respond_to do |format|
          format.html # index.html.erb
          format.xml  { render :xml => @inventors }
@@ -50,7 +57,7 @@ class InventorsController < ApplicationController
    # GET /inventors/1.xml
    def show
       @inventor = Inventor.find(params[:id])
-   
+      @entity = @inventor.entity
       respond_to do |format|
          format.html # show.html.erb
          format.xml  { render :xml => @inventor }
@@ -61,7 +68,7 @@ class InventorsController < ApplicationController
    # GET /inventors/new.xml
    def new
       @inventor = Inventor.new
-   
+      @entity = @inventor.entity
       respond_to do |format|
          format.html # new.html.erb
          format.xml  { render :xml => @inventor }
@@ -71,13 +78,15 @@ class InventorsController < ApplicationController
    # GET /inventors/1/edit
    def edit
       @inventor = Inventor.find(params[:id])
+      
+      @entity = @inventor.entity
    end
    
    # POST /inventors
    # POST /inventors.xml
    def create
       @inventor = Inventor.new(params[:inventor])
-   
+      @entity = @inventor.entity
       respond_to do |format|
          if @inventor.save
          flash[:notice] = 'Inventor was successfully created.'
@@ -94,7 +103,7 @@ class InventorsController < ApplicationController
    # PUT /inventors/1.xml
    def update
       @inventor = Inventor.find(params[:id])
-   
+   @entity = @inventor.entity
       respond_to do |format|
          if @inventor.update_attributes(params[:inventor])
          flash[:notice] = 'Inventor was successfully updated.'

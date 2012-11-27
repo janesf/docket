@@ -46,7 +46,7 @@
         <br/><%=h Countrycode.find(a.jurisdiction).ccode %>&nbsp;<%=h a.applicationnumber%> (<%=h a.filingdate%>)
         <br/>by: <% Inventorship.find_all_by_patentcase_id(a.id).each do |b| %>
                       <% Inventor.find_all_by_id(b.inventor_id).each do |a| %>
-                        <%= link_to a.first+" "+a.last, Inventor.find(a.id)%>, 
+                        <%= link_to a.first+" "+a.last, entity_inventor_path(@entity,Inventor.find(a.id))%>, 
                       <% end %>
             <% end %>
       </td>
@@ -60,7 +60,7 @@
 </tr>
   <% Inventor.find_all_by_entity_id(@entity.id).each do |a| %>
     <tr>
-      <td colspan="2"><%= link_to a.first+" "+a.last, Inventor.find(a.id)%></td>
+      <td colspan="2"><%= link_to a.first+" "+a.last, entity_inventor_path(@entity,Inventor.find(a.id))%></td>
     </tr>
   <%end%>
 <tr>

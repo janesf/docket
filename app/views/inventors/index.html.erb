@@ -1,4 +1,8 @@
-<h1>Inventors</h1>
+<h1>
+	<%if @entity%>
+	<%=@entity.name %> - 
+	<%end%>
+Inventors</h1>
 <table border="1">
 
   <tr class="tr1">
@@ -11,7 +15,7 @@
 <% @inventors.each do |inventor| %>
   <tr style="<%= cycle('tr0', 'tr1') %>">
     <td>
-      <%= link_to inventor.prefix+' '+inventor.first+' '+inventor.middle+' '+inventor.last+' '+inventor.suffix, inventor %><br />
+      <%= link_to inventor.prefix+' '+inventor.first+' '+inventor.middle+' '+inventor.last+' '+inventor.suffix, entity_inventor_path(inventor.entity, inventor) %><br />
       <%= link_to Entity.find(inventor.entity_id).name , inventor.entity %>    
     </td>
     <td>
