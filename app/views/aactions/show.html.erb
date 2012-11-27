@@ -28,7 +28,15 @@
             <td>
                <%= h reminder.note %>
             </td>
-            <td><%= link_to 'View', reminder %></td>
+			<%if @case and @aaction%>
+            	<td><%= link_to 'View', patentcase_aaction_reminder_path(@case, @aaction, reminder) %></td>
+			<%elsif @aaction%>
+				<td><%= link_to 'View', aaction_reminder_path(@aaction,reminder) %></td>
+			<%else%>
+				<td><%= link_to 'View', reminder %></td>
+			<%end%>
+
+			
          </tr>
       <% end %>
   <% end %>

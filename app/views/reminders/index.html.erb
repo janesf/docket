@@ -3,13 +3,14 @@ Listing Reminders
 <% unless session[:patentcase].nil? then %>
    for <%=link_to Patentcase.find(session[:patentcase]).attorneydocket, Patentcase.find(session[:patentcase]) %>
    </a>
-   <% unless session[:action].nil? then %>
+   <% unless @action.nil? then %>
 
-      :: <%=link_to Type.find(Aaction.find(session[:action]).type_id).descrp+" ("+Aaction.find(session[:action]).dtmailing.to_s+")", Aaction.find(session[:action])%>
+      :: <%= link_to @action.type.descrp, patentcase_aaction_path(@patcase,@action) %>
       
       </a>
    <% end %>
 <% end %>
+
 </h1>
 
 <table>
@@ -19,6 +20,7 @@ Listing Reminders
     <th>Note</th>
   </tr>
 
+    
 <% @reminders.each do |reminder| %>
    <tr>
       <td>
@@ -40,15 +42,21 @@ Listing Reminders
       <% else %>
          <td>
       <% end %>
-         <%= link_to 'Show', reminder %>
+		<%if @patcase and @action%>
+         	<%= link_to 'Show', patentcase_aaction_reminder_path(@patcase, @action, reminder) %>
+		<%elsif @patcase%>
+			<%= link_to 'Show', patentcase_reminder_path(@patcase, reminder) %>
+		<%else%>
+			<%= link_to 'Show', reminder %>
+		<%end%>
       </td>
    </tr>
    <% unless reminder.aaction_id.blank? then %>
       <tr>
          <td>&nbsp;</td>
-         <td colspan="2"><ul><li>
-            Reminder for <%= link_to "#{reminder.aaction.type.descrp} (#{reminder.aaction.dtmailing})", reminder.aaction %>
-         </li></ul></td>
+         <td colspan="2"><ul>
+		
+	</ul></td>
       </tr>
    <% end %>
    <% if reminder.completed == true or reminder.dismissed == true then %>
@@ -82,10 +90,11 @@ Listing Reminders
 </table>
 
 <br />
-<%if @patcase%>
+<%if @patcase and @action%>
 	<%= link_to 'New reminder', new_patentcase_aaction_reminder_path(@patcase, @action) %> ::
+<%elsif @patcase%>
+	<%= link_to 'New reminder', new_patentcase_reminder_path(@patcase) %> ::
 <%else%>
-
 	<%= link_to 'New reminder', new_reminder_path %> ::
 <%end%>
 <%= link_to 'Reminders Page', reminders_path %>

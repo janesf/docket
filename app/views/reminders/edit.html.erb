@@ -65,6 +65,11 @@
 <% end %>
 </fieldset>
 
-<%= link_to 'View this reminder', @reminder %>  ::
-<%= link_to 'Delete this reminder', @reminder, :confirm => 'Are you sure?', :method => :delete %>  ::
-<%= link_to 'List reminders', reminders_path %>
+<%if @patcase and @action%>
+	<%= link_to 'View this reminder', patentcase_aaction_reminder_path(@patcase, @action,@reminder) %> ::
+	<%= link_to 'List', patentcase_aaction_reminders_path(@patcase, @action) %> ::
+<%else%>
+	<%= link_to 'Edit', edit_reminder_path(@reminder) %> ::
+	<%= link_to 'List', reminders_path %> ::
+<%end%>
+<%= link_to 'Destroy', @reminder, :confirm => 'Are you sure?', :method => :delete %>

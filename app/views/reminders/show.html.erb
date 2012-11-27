@@ -12,7 +12,10 @@ View Reminder
 
 <tr><td align="right"><b>Note:</b></td>
    <td><%=h @reminder.note %></td></tr>
-
+<%if @reminder.aaction_id%>
+	<tr><td align="right"><b>For Action:</b></td>
+   		<td><%=link_to Aaction.find(@reminder.aaction_id).type.descrp,patentcase_aaction_path(@patcase,Aaction.find(@reminder.aaction_id)) %></td></tr>
+<%end%>
    <% if @reminder.completed == true or @reminder.dismissed == true then %>
       <tr>
          <td colspan="2"><ul>
@@ -42,7 +45,11 @@ View Reminder
 </table>
 
 
-
-<%= link_to 'Edit', edit_reminder_path(@reminder) %> ::
-<%= link_to 'Destroy', @reminder, :confirm => 'Are you sure?', :method => :delete %> ::
-<%= link_to 'List', reminders_path %>
+<%if @patcase and @action%>
+	<%= link_to 'Edit', edit_patentcase_aaction_reminder_path(@patcase, @action,@reminder) %> ::
+	<%= link_to 'List', patentcase_aaction_reminders_path(@patcase, @action) %> ::
+<%elsif @patcase%>
+	<%= link_to 'Edit', edit_patentcase_reminder_path(@patcase,@reminder) %> ::
+	<%= link_to 'List', patentcase_reminders_path(@patcase) %> ::
+<%end%>
+<%= link_to 'Destroy', @reminder, :confirm => 'Are you sure?', :method => :delete %> 

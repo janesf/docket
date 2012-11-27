@@ -29,32 +29,42 @@ class RemindersController < ApplicationController
    # GET /reminders.xml
    def index
       # all reminders for the current user
-      @reminders = Aaction.find(session[:action]).reminders
-      @action = Aaction.find(params[:aaction_id])
-      @patcase = Patentcase.find(params[:patentcase_id])
-      if params[:patentcase_id]
-        @patcase = Patentcase.find(params[:patentcase_id])
+
+      
+      if session[:action]
+        @reminders = Aaction.find(session[:action]).reminders
+      end
+      if params[:aaction_id]
         @action = Aaction.find(params[:aaction_id])
+        @patcase = Patentcase.find(@action.patentcase_id)
+      end
+      
+      if params[:aaction_id]
+        @action = Aaction.find(params[:aaction_id])
+        @patcase = Patentcase.find(@action.patentcase_id)
+        
+      elsif params[:patentcase_id]
+        @patcase = Patentcase.find(params[:patentcase_id])
         #@reminders = @patcase.reminders
-        @reminders = @action.reminders
+        @reminders = @patcase.reminders
          #@reminders = current_user.patentcases.collect { |pcase| pcase.reminders }
          #@reminders = current_user.patentcases.reminders
       # all reminders for the current patentcase
-      elsif session[:patentcase] then
-      @patcase = Patentcase.find(session[:patentcase])
-      @action = Aaction.find(session[:aaction])
-      #@reminders = @patcase.reminders
-      @reminders = @action.reminders
-      elsif session[:action].nil? then
-         #@reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.case_id and p.id = (?) and u.user_id = (?) order by r.due_date", session[:patentcase], session[:user_id] ]
-         @reminders = Patentcase.find(session[:patentcase]).reminders
+      
+      else
+          @reminders = Reminder.all      
+      end
+       if session[:patentcase] then
+        @patcase = Patentcase.find(session[:patentcase])  
+        #@reminders = @patcase.reminders
+        @reminders = @patcase.reminders
       # all reminders for the current aaction
       elsif session[:patentcase].nil? and session[:action].nil? then
         @reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.patentcase_id and u.user_id = (?) order by r.due_date", session[:user_id] ]
-       #   @actions = Aaction.all
-      else
-          @reminders = Reminder.all      
-      end      
+      end
+        
+        
+
       respond_to do |format|
          format.html # index.html.erb
          format.xml  { render :xml => @reminders }
@@ -64,6 +74,39 @@ class RemindersController < ApplicationController
   # GET /reminders/1
   # GET /reminders/1.xml
   def show
+    if session[:action]
+      @reminders = Aaction.find(session[:action]).reminders
+    end
+    if params[:aaction_id]
+      @action = Aaction.find(params[:aaction_id])
+      @patcase = Patentcase.find(@action.patentcase_id)
+    end
+    
+    if params[:aaction_id]
+      @action = Aaction.find(params[:aaction_id])
+      @patcase = Patentcase.find(@action.patentcase_id)
+      
+    elsif params[:patentcase_id]
+      @patcase = Patentcase.find(params[:patentcase_id])
+      #@reminders = @patcase.reminders
+      @reminders = @patcase.reminders
+       #@reminders = current_user.patentcases.collect { |pcase| pcase.reminders }
+       #@reminders = current_user.patentcases.reminders
+    # all reminders for the current patentcase
+    
+    else
+        @reminders = Reminder.all      
+    end
+     if session[:patentcase] then
+      @patcase = Patentcase.find(session[:patentcase])  
+      #@reminders = @patcase.reminders
+      @reminders = @patcase.reminders
+    # all reminders for the current aaction
+    elsif session[:patentcase].nil? and session[:action].nil? then
+      @reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.patentcase_id and u.user_id = (?) order by r.due_date", session[:user_id] ]
+    end
+    
+    
     @reminder = Reminder.find(params[:id])
 
     respond_to do |format|
@@ -124,6 +167,38 @@ class RemindersController < ApplicationController
   # PUT /reminders/1
   # PUT /reminders/1.xml
   def update
+    if session[:action]
+      @reminders = Aaction.find(session[:action]).reminders
+    end
+    if params[:aaction_id]
+      @action = Aaction.find(params[:aaction_id])
+      @patcase = Patentcase.find(@action.patentcase_id)
+    end
+    
+    if params[:aaction_id]
+      @action = Aaction.find(params[:aaction_id])
+      @patcase = Patentcase.find(@action.patentcase_id)
+      
+    elsif params[:patentcase_id]
+      @patcase = Patentcase.find(params[:patentcase_id])
+      #@reminders = @patcase.reminders
+      @reminders = @patcase.reminders
+       #@reminders = current_user.patentcases.collect { |pcase| pcase.reminders }
+       #@reminders = current_user.patentcases.reminders
+    # all reminders for the current patentcase
+    
+    else
+        @reminders = Reminder.all      
+    end
+     if session[:patentcase] then
+      @patcase = Patentcase.find(session[:patentcase])  
+      #@reminders = @patcase.reminders
+      @reminders = @patcase.reminders
+    # all reminders for the current aaction
+    elsif session[:patentcase].nil? and session[:action].nil? then
+      @reminders = Reminder.find_by_sql ["select distinct r.* from reminders r, patentcases p, usercases u where u.patentcase_id = p.id and p.id = r.patentcase_id and u.user_id = (?) order by r.due_date", session[:user_id] ]
+    end
+    
     @reminder = Reminder.find(params[:id])
     if not @patentcase
       @patentcase = Patentcase.find(params[:reminder][:patentcase_id])
@@ -132,10 +207,13 @@ class RemindersController < ApplicationController
     respond_to do |format|
       if @reminder.update_attributes(params[:reminder])
         flash[:notice] = 'Reminder was successfully updated.'
-       # format.html { redirect_to(@reminder) }
-        
-        format.html { redirect_to(patentcase_reminders_path(@patentcase)) }
-        
+        if @patcase and @action
+          format.html { redirect_to(patentcase_aaction_reminders_path(@patcase, @action)) }
+        elsif @patcase
+          format.html { redirect_to(patentcase_reminders_path(@patcase)) }
+        else
+          format.html { redirect_to(@reminder) }
+        end
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
