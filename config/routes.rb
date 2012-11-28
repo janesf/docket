@@ -38,12 +38,20 @@ Docket1::Application.routes.draw do
   resources :entitytypes
 
   resources :aactions
-  resources :types
+  
+  resources :types do 
+    resources :aactions do
+      resources :reminders
+    end
+  end
 
   resources :rtypes
-
-  resources :rules
-
+  
+  resources :types do 
+    resources :rules 
+  end    
+  
+  resources :rules 
 
   resources :inventorships
 
@@ -113,7 +121,8 @@ Docket1::Application.routes.draw do
         resources :reminders
       end
   end
-
+  resources :rules
+  
   get "static_pages/home"
   get "static_pages/help"
    get "static_pages/about"

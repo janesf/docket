@@ -21,9 +21,10 @@ class Rule < ActiveRecord::Base
   
    belongs_to :type
    belongs_to :event
-
-   has_many :reminders
-
+   belongs_to :aaction
+#   has_many :rules, :through => :type
+   has_many :reminders, :through => :aaction
+ 
    validates_presence_of :type_id, :event_id, :refdttype_id, :rmdroffset
    validate :must_have_parent_touse_prioritydate
    validates_numericality_of :rmdroffset

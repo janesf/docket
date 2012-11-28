@@ -13,8 +13,6 @@
 <% row=0 %>
 <% @rules.each do |rule| %>
   <% style_select = row % 2 %>
-  <%= '<tr style=".tr'+style_select.to_s+'">' %>
-    
     <td><%=link_to Type.find(rule.type_id).descrp,  Type.find(rule.type_id)%></td>
     <td><%=link_to Event.find(rule.event_id).event, edit_rule_path(rule) %></td>
     
