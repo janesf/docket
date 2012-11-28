@@ -21,7 +21,8 @@
 #
 
 class Reminder < ActiveRecord::Base
-  attr_accessible :dtrmdr, :patentcase_id, :note, :rstatus_id, :aaction_id, :due_date, :completed, :date_completed, :completing_action, :dismissed, :rule_id
+  attr_accessible :dtrmdr, :patentcase_id, :note, :rstatus_id, 
+    :rstatus_id, :aaction_id, :due_date, :completed, :date_completed, :completing_action, :dismissed, :rule_id
    belongs_to :patentcase
    belongs_to :aaction
    belongs_to :rule

@@ -141,8 +141,13 @@ class RemindersController < ApplicationController
     
     @reminder ||= @patentcase.reminders.new
     @reminder.rstatus_id = 1
-    @reminder.aaction_id = params[:aaction_id]
-    
+    if @action
+      @reminder.aaction_id = @action.id
+    elsif params[:aaction_id]
+      @reminder.aaction_id = params[:aaction_id]
+    else
+      @reminder.aaction_id = '9999'
+    end
     
     respond_to do |format|
       format.html # new.html.erb
@@ -195,17 +200,36 @@ class RemindersController < ApplicationController
   def create
     if not @patentcase
       @patentcase = Patentcase.find(params[:reminder][:patentcase_id])
+      
     end   
-   
+    @entity = @patentcase.entity
     @reminder = @patentcase.reminders.build(params[:reminder])
-    @reminder.aaction_id = params[:aaction_id]
- #   @action = Aaction.find(params[:aaction_id])
+    if @action
+      @reminder = @action.reminder
+    else
+      @reminder.aaction_id = params[:aaction_id]
+      if params[:aaction_id]
+        @action = Aaction.find(params[:aaction_id])
+      elsif @reminder.aaction_id
+        @action = Aaction.find(@reminder.aaction_id)
+      elsif session[:action]
+        @action = Aaction.find(session[:action])
+      end
+    end
     
     #@reminder = Reminder.new(params[:reminder])
     respond_to do |format|
       if @reminder.save
         flash[:notice] = 'Reminder was successfully created.'
-        format.html { redirect_to(patentcase_reminders_path(@patentcase)) }
+        if @patentcase and @action
+          format.html { redirect_to(entity_patentcase_aaction_reminders_path(@entity,@patentcase,@action)) }
+        elsif @patentcase
+          format.html { redirect_to(entity_patentcase_reminders_path(@entity,@patentcase)) }
+        elsif @action
+          format.html { redirect_to(aaction_reminders_path(@action)) }
+        else
+          format.html { redirect_to(reminders_path) }
+        end 
         format.xml  { render :xml => @reminder, :status => :created, :location => @reminder }
       else
         format.html { render :action => "new" }
