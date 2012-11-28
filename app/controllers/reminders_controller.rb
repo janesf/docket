@@ -160,6 +160,7 @@ class RemindersController < ApplicationController
     if session[:action]
       @reminders = Aaction.find(session[:action]).reminders
     end
+    
     if params[:aaction_id]
       @action = Aaction.find(params[:aaction_id])
       @patcase = Patentcase.find(@action.patentcase_id)
@@ -203,6 +204,7 @@ class RemindersController < ApplicationController
       
     end   
     @entity = @patentcase.entity
+    
     @reminder = @patentcase.reminders.build(params[:reminder])
     if @action
       @reminder = @action.reminder
@@ -214,11 +216,18 @@ class RemindersController < ApplicationController
         @action = Aaction.find(@reminder.aaction_id)
       elsif session[:action]
         @action = Aaction.find(session[:action])
+        @reminder.aaction_id = session[:action]
       end
     end
-    
+    @reminder.rstatus_id = 1
     #@reminder = Reminder.new(params[:reminder])
     respond_to do |format|
+      # if @action
+      #   flash[:notice] = 'non action.'
+      # elsif session[:action]
+      #   flash[:notice] = 'session yes.'
+      # end
+        
       if @reminder.save
         flash[:notice] = 'Reminder was successfully created.'
         if @patentcase and @action
