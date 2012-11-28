@@ -46,4 +46,8 @@
 <% end %>
 
 <%= link_to 'Show', @aaction %> ::
-<%= link_to 'Show All Actions', entity_patentcase_aactions_path(@entity, @patentcase) %>
+<%if @entity and @patentcase%>
+	<%= link_to 'Show All Actions', entity_patentcase_aactions_path(@entity, @patentcase) %>
+<%else%>
+	<%= link_to 'Show All Actions', aactions_path %>
+<%end%>

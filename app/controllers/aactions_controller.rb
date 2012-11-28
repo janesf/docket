@@ -105,6 +105,9 @@ class AactionsController < ApplicationController
   # GET /aactions/1/edit
   def edit
     @aaction = Aaction.find(params[:id])
+    @patentcase = Patentcase.find(params[:patentcase_id])
+    @entity = @patentcase.entity  
+    
     session[:action] = @aaction.id
   end
 
@@ -144,6 +147,7 @@ class AactionsController < ApplicationController
       @aaction = Aaction.find(params[:id])
       session[:action] = @aaction.action_id
       @case = Patentcase.find(params[:aaction][:patentcase_id])
+      @entity = @case.entity
       respond_to do |format|
          if @aaction.update_attributes(params[:aaction])
          flash[:notice] = 'Aaction was successfully updated.'
@@ -156,6 +160,9 @@ class AactionsController < ApplicationController
       end
    end
 
+
+  
+  
   # DELETE /aactions/1
   # DELETE /aactions/1.xml
   def destroy
