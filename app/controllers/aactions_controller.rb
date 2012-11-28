@@ -72,7 +72,8 @@ class AactionsController < ApplicationController
         @entity = @case.entity
      end
     session[:action] = params[:id]
-
+    session[:type] = @aaction.type_id
+    
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @aaction }

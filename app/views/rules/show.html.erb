@@ -74,7 +74,8 @@
                       case a.refdttype_id
                         when 1 then 
                           relevant_date=c.dtmailing 
-                          due_date=relevant_date>>month_offset
+						
+                          due_date = relevant_date >> month_offset
                           due_date.to_s
                         when 2 then  
                           relevant_date=Patentcase.find(c.patentcase_id).filingdate 

@@ -4,7 +4,7 @@
   <br />
 <%= link_to @aaction.type.descrp, @aaction.type %><br />
  <b>Dated:
-  <%=h @aaction.dtmailing %></b><br />
+  <%=h @aaction.dtmailing.to_s %></b><br />
 <% unless @aaction.notes.empty? then %>
   <b>Notes:</b>
   <%=h @aaction.notes %>
