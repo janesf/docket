@@ -1,11 +1,11 @@
-<h1>Show Action Type</h1>
+<h1>Action Types</h1>
 
 <hr />
 
 <table>
 <tr>
   <td align="right">Desc:</td>
-  <td><%=h @type.descrp %></td>
+  <td><%=link_to @type.descrp, type_aactions_path(@type) %></td>
 </tr>
 
 <tr>
@@ -24,7 +24,7 @@
 
   <% Rule.find_all_by_type_id(@type.id).each do |a| %>
         <tr>
-          <td><%= link_to Event.find(a.event_id).event, a %></td>
+          <td><%= link_to Event.find(a.event_id).event, type_rule_path(a.type,a) %></td>
           <td><%= a.rmdroffset.to_s + " months from " %>
           <%= case a.refdttype_id
             when 1 then "action mailing date."

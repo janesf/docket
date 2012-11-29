@@ -25,8 +25,8 @@
       <% end %>
     </td>
     <td> 
-      <%= link_to 'Show', rule %> ::
-      <%= link_to 'Edit', edit_rule_path(rule) %> ::
+      <%= link_to 'Show', type_rule_path(rule.type, rule) %> ::
+      <%= link_to 'Edit', edit_type_rule_path(rule.type,rule) %> ::
       <%= link_to 'Delete', rule, :confirm => 'Are you sure?', :method => :delete %>
     </td>
   </tr>

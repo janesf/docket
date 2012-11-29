@@ -11,7 +11,7 @@
 #
 
 class Type < ActiveRecord::Base
-   
+   attr_accessible :notes, :desc, :final, :descrp
    has_many :rules
    has_many :aactions
 

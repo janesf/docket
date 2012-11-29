@@ -50,7 +50,9 @@ Docket1::Application.routes.draw do
   resources :types do 
     resources :rules 
   end    
-  
+  resources :events do 
+    resources :rules 
+  end
   resources :rules 
 
   resources :inventorships
@@ -121,7 +123,7 @@ Docket1::Application.routes.draw do
         resources :reminders
       end
   end
-  resources :rules
+  
   
   get "static_pages/home"
   get "static_pages/help"

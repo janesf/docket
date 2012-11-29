@@ -28,8 +28,12 @@ class RulesController < ApplicationController
   # GET /rules
   # GET /rules.xml
   def index
-    @rules = Rule.find(:all, :order => :type_id)
-
+    if params[:event_id]
+      @event = Event.find(params[:event_id])
+      @rules = @event.rules
+    else
+      @rules = Rule.find(:all, :order => :type_id)
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @rules }
@@ -40,7 +44,7 @@ class RulesController < ApplicationController
   # GET /rules/1.xml
   def show
     @rule = Rule.find(params[:id])
-
+    @type = @rule.type
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @rule }

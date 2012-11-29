@@ -49,6 +49,12 @@ class AactionsController < ApplicationController
           end
         end
         
+        if params[:type_id]
+          @type = Type.find(params[:type_id])
+          @aactions = @type.aactions
+          session[:type] = params[:type_id]
+        end
+        
         session[:patentcase]
      # session[:action] = nil
       respond_to do |format|

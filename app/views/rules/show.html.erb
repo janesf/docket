@@ -118,8 +118,8 @@
 <hr />
 <table align="center">
 <tr>
-<td><%= button_to 'Edit this rule', edit_rule_path(@rule) %></td>
+<td><%= button_to 'Edit this rule', edit_type_rule_path(@rule.type,@rule) %></td>
 <td><%= button_to 'Delete this rule', @rule, :confirm => 'Are you sure?', :method => :delete %></td>
-<td><%= button_to 'List all rules', rules_path %></td>
+<td><%= button_to 'List all rules', type_rules_path(@rule.type) %></td>
 </tr>
 </table>
