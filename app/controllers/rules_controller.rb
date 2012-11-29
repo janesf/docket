@@ -75,7 +75,7 @@ class RulesController < ApplicationController
             a = @rule
             c = Reminder.new
             c.rstatus_id = 1
-            c.case_id = b.patentcase_id
+            c.patentcase_id = b.patentcase_id
             c.rmdroffset = a.rmdroffset
             c.event_id = a.event_id
             c.type_id = a.type_id
