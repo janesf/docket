@@ -11,3 +11,6 @@
 
 <%= f.label :password_confirmation, "Confirm Password" %>
 <%= f.password_field :password_confirmation %>
+
+<%= f.label :role_id %>
+<%= f.collection_select(:role_id, Role.find(:all), :id, :description, {:prompt => true}) %>

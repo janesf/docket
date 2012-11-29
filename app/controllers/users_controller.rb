@@ -14,6 +14,10 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+    
+    #for now making all new users admin
+    @user.role_id = 1 
+    
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to the IveyLaw.org!"

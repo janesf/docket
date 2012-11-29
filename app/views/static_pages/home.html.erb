@@ -15,6 +15,16 @@
         <%= render 'shared/stats' %>
       </td>
     </tr>
+
+<tr>	
+	
+	It's <%= Time.now %><br>
+	Session User: <%=current_user.name%>, ID: <%=current_user.id%><br>
+
+	We have <%=link_to pluralize(current_user.patentcases.count, "Patentcase"), patentcases_path %>.
+</tr>
+
+
   </table>
 
 <% else %>

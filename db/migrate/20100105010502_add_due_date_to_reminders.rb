@@ -1,6 +1,6 @@
 class AddDueDateToReminders < ActiveRecord::Migration
   def self.up
-    add_column :reminders, :due_date, :date
+    add_column :reminders, :due_date, :datetime
   end
 
   def self.down

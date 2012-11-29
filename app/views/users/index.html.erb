@@ -9,7 +9,8 @@
   <% @users.each do |user| %>
     <li>
       <%= gravatar_for user, size: 52 %>
-      <%= link_to user.name, user %>
+      <%= link_to user.name, user %> - 
+		<%= link_to user.role.description, edit_user_path(user) %>
     </li>
   <% end %>
 </ul>
