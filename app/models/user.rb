@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   end  
   attr_accessor   :password
   
-  attr_accessible :name, :email, :password, :password_confirmation, :role_id
+  attr_accessible :name, :email, :password, :password_confirmation, :role_id, :entity_id
  # has_secure_password
   belongs_to :entity
   has_many :microposts, dependent: :destroy
@@ -47,6 +47,7 @@ class User < ActiveRecord::Base
 #  before_save :create_remember_token
   before_save :encrypt_password
   validates :role_id, presence: true
+  validates :entity_id, presence: true
   validates :name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence:   true,
