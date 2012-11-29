@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   end  
   attr_accessor   :password
   
-  attr_accessible :name, :email, :password, :password_confirmation
+  attr_accessible :name, :email, :password, :password_confirmation, :role_id
  # has_secure_password
   belongs_to :entity
   has_many :microposts, dependent: :destroy
