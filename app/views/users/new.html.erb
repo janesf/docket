@@ -20,11 +20,9 @@
       <%= f.label :password_confirmation, "Confirmation" %>
       <%= f.password_field :password_confirmation %>
 
-	<%if current_user.role_id = 1%>
 		<%= f.label :role_id %>
 		<%= f.collection_select(:role_id, Role.find(:all), :id, :description, {:prompt => true}) %>
-	<%end%>
-	
+
       <%= f.submit "Create my account", class: "btn btn-large btn-primary" %>
     <% end %>
   </div>
