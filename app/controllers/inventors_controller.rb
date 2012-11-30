@@ -37,16 +37,15 @@ class InventorsController < ApplicationController
             @inventors = current_user.entity.inventors
             
          end
-<<<<<<< HEAD
+
       elsif session[:entity]
           @entity = Entity.find(session[:entity])
          @inventors = Entity.find(session[:entity]).inventors
       elsif current_user.entity
-=======
+
       else
         # @inventors = Entity.find(session[:entity]).inventors
-
->>>>>>> parent of bac3c7b... inventor controller
+        @entity =  current_user.entity
         @inventors = current_user.entity.inventors
        if params[:entity_id] 
          @entity = Entity.find(params[:entity_id])
