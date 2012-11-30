@@ -17,7 +17,7 @@
       <b>Required Response:</b>
     </td>
     <td>
-      <%=link_to Event.find(@rule.event_id).event, @rule.event) %>
+      <%=link_to Event.find(@rule.event_id).event, Event.find(@rule.event_id) %>
     </td>
   </tr>
   <tr>
