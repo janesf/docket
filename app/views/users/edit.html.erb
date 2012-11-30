@@ -20,6 +20,8 @@
 
 		<%= f.label :role_id %>
 		<%= f.collection_select(:role_id, Role.find(:all), :id, :description, {:prompt => true}) %>
+		
+		
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
     <% end %>
 
