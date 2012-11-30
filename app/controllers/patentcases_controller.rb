@@ -34,7 +34,10 @@ class PatentcasesController < ApplicationController
    # @patentcases = Patentcase.find_by_sql( [ "select distinct p.* from patentcases p, usercases u where p.id = u.patentcase_id and user_id =(?) order by attorneydocket asc", current_user.id ] )
      #
      @patentcases = @entity.patentcases
-   else
+   elsif session[:entity]
+     @entity = Entity.find(session[:entity])
+    @patentcases = @entity.patentcases
+    else
       @patentcases ||= current_user.patentcases
    end
   #  session[:patentcase] = nil

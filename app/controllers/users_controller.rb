@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     
     #for now making all new users admin
-    @user.role_id = 1 
+    #@user.role_id = 1 
     
     if @user.save
       sign_in @user
@@ -32,6 +32,7 @@ class UsersController < ApplicationController
     flash[:success] = "User destroyed."
     redirect_to users_url
   end
+  
   def edit
     @user = User.find(params[:id])
   end
