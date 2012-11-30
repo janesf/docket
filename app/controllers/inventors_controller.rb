@@ -37,9 +37,9 @@ class InventorsController < ApplicationController
             @inventors = current_user.entity.inventors
             
          end
-      else
-        # @inventors = Entity.find(session[:entity]).inventors
-
+      elsif session[:entity]
+         @inventors = Entity.find(session[:entity]).inventors
+      elsif current_user.entity
         @inventors = current_user.entity.inventors
        if params[:entity_id] 
          @entity = Entity.find(params[:entity_id])
