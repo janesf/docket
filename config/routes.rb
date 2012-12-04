@@ -79,7 +79,8 @@ Docket1::Application.routes.draw do
   get "static_pages/home"
   get "static_pages/help"
 
-  root to: 'static_pages#home'
+  root to: 'sessions#new'
+  #root to: 'static_pages#home'
 #  root to: 'movies#index'
  # resources :users
   match '/signup',  :to => 'users#new'
