@@ -35,6 +35,9 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
+    
+    @user.entity = Entity.find(params[:entity_id]) if params[:entity_id]
+    @user.entity ||= Entity.find(session[:entity]) if session[:entity]
   end
   
   def index
@@ -43,6 +46,7 @@ class UsersController < ApplicationController
   
   def update
    # @user = User.find(params[:id])
+   
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated"
       sign_in @user
