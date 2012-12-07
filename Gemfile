@@ -17,10 +17,12 @@ group :development do
   gem 'sqlite3'
   gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'database_cleaner'
-  gem 'capybara'
+  gem 'capybara','1.1.2'
   gem 'launchy'
-  gem 'rspec-rails'
+  gem 'spork', '0.9.2'
   gem 'simplecov'
+  gem 'rspec-rails', '2.11.0'
+  gem 'guard-rspec', '1.2.1'
 end
 group :production do
   gem 'pg'
@@ -30,12 +32,16 @@ group :test do
   gem 'sqlite3'
   gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'database_cleaner'
-  gem 'capybara'
+  gem 'capybara', '1.1.2'
   gem 'launchy'
-  gem 'rspec-rails'
+  gem 'spork', '0.9.2'
   gem 'simplecov'
   gem 'cucumber-rails'
   gem 'cucumber-rails-training-wheels'
+  gem 'rb-fsevent', '0.9.1', :require => false
+  gem 'growl', '1.0.3'
+  gem 'rspec-rails', '2.11.0'
+  gem 'guard-rspec', '1.2.1'
 end
 
 # Gems used only for assets and not required
