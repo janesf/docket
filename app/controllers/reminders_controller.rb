@@ -1,6 +1,6 @@
 class RemindersController < ApplicationController
 
-   before_filter  :check_read_access
+   before_filter  :check_read_access, :patentcase_exist?
    before_filter  :check_write_access, :only => [:new, :edit, :create, :update, :destroy]
    
    def check_read_access
@@ -19,6 +19,17 @@ class RemindersController < ApplicationController
          flash[:notice]='Access denied.'
          if request.env['HTTP_REFERER'].nil? then
             redirect_to :controller => :admin, :action => :login
+         else
+            redirect_to :back
+         end
+      end
+   end
+   
+   def patentcase_exist?
+      unless params[:patentcase_id] or session[:patentcase] then
+         flash[:notice]='Please click on a specific patentcase for which the reminder page you want to go to.'
+         if request.env['HTTP_REFERER'].nil? then
+            redirect_to :controller => :patentcase, :action => :index
          else
             redirect_to :back
          end

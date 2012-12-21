@@ -32,6 +32,7 @@ class InventorshipsController < ApplicationController
       @inventorships = Inventorship.find_by_sql ["select distinct i.* from Inventorships i, patentcases p, usercases u where u.patentcase_id = p.id and p.id = i.patentcase_id and u.user_id = (?) order by i.patentcase_id", session[:user_id] ]
       @entity = Entity.find(session[:entity]) if session[:entity]
       @inventors = @entity.inventors if @entity
+      #@inventorships = @inventors.inventorships if @inventors
       @patentcase = Patentcase.find(session[:patentcase]) if session[:patentcase]
       @inventorships = @patentcase.inventorships if @patentcase
      

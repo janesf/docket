@@ -13,8 +13,8 @@
     <td><%=h Patentcase.find(inventorship.patentcase_id ).title %></td>&nbsp;
     <%u = Inventor.find(inventorship.inventor_id)%>
     <td><%= link_to u.first, u%></td>
-<td><%=h Inventor.find(inventorship.inventor_id ).middle %></td>&nbsp;
-<td><%=h Inventor.find(inventorship.inventor_id ).last %></td>
+	<td><%=h Inventor.find(inventorship.inventor_id ).middle %></td>&nbsp;
+	<td><%=h Inventor.find(inventorship.inventor_id ).last %></td>
     
     <td><%= link_to 'Show', inventorship %></td>
     <td><%= link_to 'Edit', edit_inventorship_path(inventorship) %></td>

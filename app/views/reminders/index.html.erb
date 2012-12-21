@@ -30,7 +30,7 @@ Listing Reminders
          <% end %>
       </td>
       <td>
-         <% if reminder.aaction_id.blank? then %>
+         <% if reminder.aaction_id.blank? and @patcase then %>
             <%= h @patcase.attorneydocket %>
          <% else %>
             <%= h reminder.aaction.patentcase.attorneydocket %>

@@ -37,12 +37,12 @@
 		<li><%= link_to "Action Types", types_path %></li>
 		
 		<%if @patentcase%>
-			<li><%= link_to "Actions", entity_patentcase_aactions_path(@entity,@patentcase) %></li>
+			<li><%= link_to "Actions", patentcase_aactions_path(@patentcase) %></li>
 			
 			<%if @action%>
 	      		<li><%= link_to "Reminders", entity_patentcase_aaction_reminders_path(@entity,@patentcase,@action) %></li>
 			<%else%>
-				<li><%= link_to "Reminders", entity_patentcase_reminders_path(@entity,@patentcase) %></li>
+				<li><%= link_to "Reminders", patentcase_reminders_path(@patentcase) %></li>
 			<%end%>
 			
 		<%else%>
